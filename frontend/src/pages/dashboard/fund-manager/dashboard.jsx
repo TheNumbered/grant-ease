@@ -2,8 +2,8 @@ import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import React from "react";
-import ManageApplications from "./applications.jsx";
 import "./fund-manager-styles.css";
+import { ManagerFundingAdvertisements } from "./get-manager-funding-advertisements.jsx";
 import FundManagerOverviewCards from "./overview";
 
 function CustomTabPanel(props) {
@@ -29,12 +29,13 @@ function a11yProps(index) {
   };
 }
 
-export const FundManagerDashboard = () => {
+export const FundManagerDashboard = ({ data, applicants }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   return (
     <>
       <section
@@ -56,10 +57,11 @@ export const FundManagerDashboard = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <FundManagerOverviewCards />
+          <FundManagerOverviewCards data={data} applicants={applicants} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <ManageApplications />
+          {/* <ManageApplications /> */}
+          <ManagerFundingAdvertisements />
         </CustomTabPanel>
       </Box>
     </>

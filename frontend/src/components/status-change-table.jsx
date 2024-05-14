@@ -14,11 +14,16 @@ import {
   TablePagination,
   TableRow,
   Toolbar,
-  Typography
-} from '@mui/material';
-import { useState } from 'react';
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
 
-export const StatusChangeTable = ({ title, data, headers, handleStatusChange }) => {
+export const StatusChangeTable = ({
+  title,
+  data,
+  headers,
+  handleStatusChange,
+}) => {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
@@ -43,7 +48,10 @@ export const StatusChangeTable = ({ title, data, headers, handleStatusChange }) 
     } else if (selectedIndex === selected.length - 1) {
       newSelected = selected.slice(0, -1);
     } else if (selectedIndex > 0) {
-      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+      newSelected = [
+        ...selected.slice(0, selectedIndex),
+        ...selected.slice(selectedIndex + 1),
+      ];
     }
 
     setSelected(newSelected);
@@ -60,32 +68,43 @@ export const StatusChangeTable = ({ title, data, headers, handleStatusChange }) 
   const emptyRows = Math.max(0, rowsPerPage - data.length);
 
   const handleApprove = () => {
-    handleStatusChange(selected, 'approve');
+    handleStatusChange(selected, "approve");
     setSelected([]);
   };
 
   const handleReject = () => {
-    handleStatusChange(selected, 'reject');
+    handleStatusChange(selected, "reject");
     setSelected([]);
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <Toolbar >
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
+        <Toolbar>
           {selected.length > 0 ? (
-            <Typography variant="subtitle1" component="div" sx={{ flex: '1 1 100%' }}>
+            <Typography
+              variant="subtitle1"
+              component="div"
+              sx={{ flex: "1 1 100%" }}
+            >
               {selected.length} selected
             </Typography>
           ) : (
-            <Typography variant="h6" component="div" sx={{ flex: '1 1 100%' }}>
+            <Typography variant="h6" component="div" sx={{ flex: "1 1 100%" }}>
               {title}
             </Typography>
           )}
 
           {selected.length > 0 && (
             <Stack direction="row" spacing={2}>
-              <Button variant="contained" color="success" onClick={handleApprove}>
+              {/* <Button variant="outlined" color="success">
+                Review
+              </Button> */}
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleApprove}
+              >
                 Approve
               </Button>
               <Button variant="outlined" color="error" onClick={handleReject}>
@@ -96,25 +115,30 @@ export const StatusChangeTable = ({ title, data, headers, handleStatusChange }) 
         </Toolbar>
 
         <TableContainer>
-          <Table sx={{ minWidth: 750 }} size={dense ? 'small' : 'medium'}>
+          <Table sx={{ minWidth: 750 }} size={dense ? "small" : "medium"}>
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
                     color="primary"
-                    inputProps={{ 'aria-label': 'select all users' }}
+                    inputProps={{ "aria-label": "select all users" }}
                     onChange={handleSelectAllClick}
                   />
                 </TableCell>
                 {headers.map((header, index) => (
-                  <TableCell align="left" key={index}>{header}</TableCell>
+                  <TableCell align="left" key={index}>
+                    {header}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>
 
             <TableBody>
               {(rowsPerPage > 0
-                ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                ? data.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, index) => {
                 const isItemSelected = isSelected(row.id);
@@ -129,17 +153,19 @@ export const StatusChangeTable = ({ title, data, headers, handleStatusChange }) 
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
+                    sx={{ cursor: "pointer" }}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
-                        inputProps={{ 'aria-labelledby': labelId }}
+                        inputProps={{ "aria-labelledby": labelId }}
                       />
                     </TableCell>
                     {headers.map((header, index) => (
-                      <TableCell align="left" key={index}>{row[header]}</TableCell>
+                      <TableCell align="left" key={index}>
+                        {row[header]}
+                      </TableCell>
                     ))}
                   </TableRow>
                 );

@@ -6,8 +6,7 @@ const router = express.Router();
 router.get("/meta", ClerkExpressRequireAuth(), (req, res) => {
   const id = req.auth.userId;
   const full_name = req.auth.userFullName;
-  
-  
+
   db.query("SELECT * FROM user WHERE id = ?", [id], (err, result) => {
     if (err) {
       console.error("Error querying database:", err);
