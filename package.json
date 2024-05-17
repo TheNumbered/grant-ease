@@ -32,7 +32,10 @@
     "mysql2": "^3.9.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.23.0"
+    "react-router-dom": "^6.23.0",
+    "@mui/lab": "5.0.0-alpha.170",
+    "pnpm": "^9.0.6",
+    "prop-types": "^15.8.1"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.34.2",

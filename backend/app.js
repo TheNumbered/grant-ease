@@ -1,10 +1,18 @@
 import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
-import cors from 'cors';
-import dotenv from 'dotenv';
-import express from 'express';
-import { adminManagerUsers, createFundingOpportunities, fundingOpportunities, getUserMeta, managerApplications, userApplications } from "./routes/index.js";
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import {
+  createFundingOpportunities,
+  fundingOpportunities,
+  getBalance,
+  getUserMeta,
+  managerApplications,
+  managerGetFundingOpportunities,
+  userApplications,
+} from "./routes/index.js";
 
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: ".env.local" });
 
 const app = express();
 
@@ -14,35 +22,35 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Serving images
-app.use('/uploads/funding_opportunities/', express.static('uploads/funding_opportunities/'));
+app.use(
+  "/uploads/funding_opportunities/",
+  express.static("uploads/funding_opportunities/")
+);
 
-app.get('/', ClerkExpressRequireAuth(), (req, res) => {
-  res.json({ message: "Welcome, you're authenticated!" })
+app.get("/", ClerkExpressRequireAuth(), (req, res) => {
+  res.json({ message: "Welcome, you're authenticated!" });
 });
-
 
 // Funding opportunities routes
 app.use("/", fundingOpportunities);
 
 // Manager routes
-app.use('/manager', managerApplications);
-app.use('/manager', createFundingOpportunities);
+app.use("/manager", managerApplications);
+app.use("/manager", createFundingOpportunities);
+app.use("/", managerGetFundingOpportunities);
+app.use("/manager", getBalance);
 
 // User routes
-app.use('/user', userApplications);
-app.use('/user', getUserMeta);
-
-// Admin routes
-app.use('/admin', adminManagerUsers);
-
+app.use("/user", userApplications);
+app.use("/user", getUserMeta);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  if (err.message === 'Unauthenticated') {
-    res.status(401).json({ error: 'Unauthenticated' });
+  if (err.message === "Unauthenticated") {
+    res.status(401).json({ error: "Unauthenticated" });
   } else {
-    console.error('Error:', err);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
