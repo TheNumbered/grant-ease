@@ -1,28 +1,33 @@
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 import express from "express";
-import { db } from "../../db/index.js";
+import fs from "fs";
+import multer, { diskStorage } from "multer";
+import path from "path";
 const router = express.Router();
 
 
-// Route to get applications from the database for the current user by id
-router.get("/applications", ClerkExpressRequireAuth(), (req, res) => {
-    const id = req.auth.userId;
-    // const id = "user2";
-    db.query("SELECT fa.*, fo.title FROM funding_applications fa JOIN funding_opportunities fo ON fa.fund_id = fo.id WHERE fa.applicant_id = ?", [id], (err, result) => {
-        if (err) {
-            console.error("Error querying database:", err);
-            res.status(500).json({ error: "Internal Server Error" });
-            return;
-        }
-        res.json(result);
-    });
-});
+// Multer storage configuration
+const storage = diskStorage({
+    destination: (req, file, cb) => {
+        const dir = `uploads/user_documents/${req.auth.userId}`;
+        fs.mkdirSync(dir, { recursive: true });
+        cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+}); 
 
-router.post("/applications", ClerkExpressRequireAuth(), (req, res) => {
+// Multer upload instance
+const upload = multer({ storage: storage });
+
+
+router.post("/applications", upload.array("attachments", 5), (req, res) => {
     const applicant_id = req.auth.userId;
     const { fund_id} = req.body;
 
-    db.query(
+    const attachments = req.files.map(file => file.path);
+
+    req.db.query(
         "SELECT * FROM funding_applications WHERE applicant_id = ? AND fund_id = ?",
         [applicant_id, fund_id],
         (err, result) => {
@@ -36,9 +41,9 @@ router.post("/applications", ClerkExpressRequireAuth(), (req, res) => {
                 return;
             }
             
-            db.query(
+            req.db.query(
                 "INSERT INTO funding_applications SET ?",
-                { applicant_id, fund_id, status: "Pending" },
+                { applicant_id, fund_id, status: "pending", attachments: JSON.stringify(attachments) },
                 (err, result) => {
                     if (err) {
                         console.error("Error inserting into database:", err);
@@ -50,7 +55,6 @@ router.post("/applications", ClerkExpressRequireAuth(), (req, res) => {
             );
         }
     );
-
 })
 
 

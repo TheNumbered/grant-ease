@@ -42,7 +42,7 @@ export default function ManageApplications({ fundId }) {
   });
 
   const handleStatusChange = (selected, status) => {
-    const newStatus = status === "approve" ? "Approved" : "Rejected";
+    const newStatus = status === "approve" ? "approved" : "rejected";
     const target = amount.find((item) => item.id === fundId);
     const target_amount = target.amount * selected.length;
     updateBalance({

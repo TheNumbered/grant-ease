@@ -1,14 +1,15 @@
 import { Grid } from "@mui/material";
-import { createMutation, getQuery } from "../../dataprovider";
+import { useState } from "react";
+import { getQuery } from "../../dataprovider";
 import { LoadingPage } from "../loading-page";
+import ApplyModal from "./apply-modal";
 import "./funding-page-styles.css";
 
 const FundingPage = () => {
   const { data, isError, isLoading } = getQuery("funding-opportunities");
-  const { mutate: applyForFunding } = createMutation({
-    resource: "user/applications",
-    invalidateKeys: ["funding-opportunities"],
-  });
+
+  const [openModal, setOpenModal] = useState(false);
+
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -61,15 +62,15 @@ const FundingPage = () => {
                 <p>{fund.description}</p>
               </section>
               <section className="card-footer">
-                {fund.application_status === "Pending" ? (
+                {fund.application_status === "pending" ? (
                   <button className="btn-disabled" disabled>
                     Application Pending
                   </button>
-                ) : fund.application_status === "Approved" ? (
+                ) : fund.application_status === "approved" ? (
                   <button className="btn-disabled" disabled>
                     Application Approved
                   </button>
-                ) : fund.application_status === "Rejected" ? (
+                ) : fund.application_status === "rejected" ? (
                   <button className="btn-disabled" disabled>
                     Application Rejected
                   </button>
@@ -78,11 +79,12 @@ const FundingPage = () => {
                     className="btn"
                     type="submit"
                     value="Apply"
-                    onClick={() => applyForFunding({ fund_id: fund.id })}
+                    onClick={() => setOpenModal(true)}
                   />
                 )}
               </section>
             </article>
+            <ApplyModal open={openModal} onClose={()=>setOpenModal(false)} fund={fund}/>
           </Grid>
         ))}
       </Grid>

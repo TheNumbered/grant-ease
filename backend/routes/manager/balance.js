@@ -1,13 +1,12 @@
 import express from "express";
-import { db } from "../../db/index.js";
 const router = express.Router();
 
 // Route to get funding balance from the database by the fund manager id
 router.get("/balance", (req, res) => {
-  //   const id = req.auth.userId;
-  const id = "1";
-  db.query(
-    "SELECT balance FROM fund_manager_info WHERE fund_id = ?",
+  const id = req.auth.userId;
+  //const id = "1";
+  req.db.query(
+    "SELECT balance FROM fund_manager_info WHERE manager_id = ?",
     [id],
     (err, result) => {
       if (err) {
@@ -22,16 +21,16 @@ router.get("/balance", (req, res) => {
 
 // router that adds balance to the fund manager account
 router.post("/add-balance", (req, res) => {
-  //   const id = req.auth.userId;
-  const id = "1";
+  const id = req.auth.userId;
+  //const id = "1";
   const { amount } = req.body;
   console.log(req.body);
   if (!amount) {
     res.status(400).json({ error: "Amount is required" });
     return;
   }
-  db.query(
-    "UPDATE fund_manager_info SET balance = balance + ? WHERE fund_id = ?",
+  req.db.query(
+    "UPDATE fund_manager_info SET balance = balance + ? WHERE manager_id = ?",
     [amount, id],
     (err, result) => {
       if (err) {
@@ -46,8 +45,8 @@ router.post("/add-balance", (req, res) => {
 
 // router that deducts balance from the fund manager account
 router.post("/deduct-balance", (req, res) => {
-  // const id = req.auth.userId; // Assuming userId is obtained from authentication
-  const id = "1"; // For testing, replace "1" with the actual user ID obtained from authentication
+  const id = req.auth.userId; // Assuming userId is obtained from authentication
+  //const id = "1"; // For testing, replace "1" with the actual user ID obtained from authentication
   const { amount } = req.body;
 
   if (!amount) {
@@ -56,8 +55,8 @@ router.post("/deduct-balance", (req, res) => {
   }
 
   // Check if there is sufficient balance
-  db.query(
-    "SELECT balance FROM fund_manager_info WHERE fund_id = ?",
+  req.db.query(
+    "SELECT balance FROM fund_manager_info WHERE manager_id = ?",
     [id],
     (err, rows) => {
       if (err) {
@@ -79,8 +78,8 @@ router.post("/deduct-balance", (req, res) => {
       }
 
       // Deduct the balance
-      db.query(
-        "UPDATE fund_manager_info SET balance = balance - ? WHERE fund_id = ?",
+      req.db.query(
+        "UPDATE fund_manager_info SET balance = balance - ? WHERE manager_id = ?",
         [amount, id],
         (err, result) => {
           if (err) {
@@ -97,9 +96,9 @@ router.post("/deduct-balance", (req, res) => {
 
 // router that gets the amount
 router.get("/get-amount", (req, res) => {
-  //   const id = req.auth.userId;
-  const id = "1";
-  db.query(
+  const id = req.auth.userId;
+  //const id = "1";
+  req.db.query(
     "SELECT amount FROM funding_opportunities WHERE id = ?",
     [id],
     (err, result) => {

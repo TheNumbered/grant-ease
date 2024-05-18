@@ -4,4 +4,3 @@
 **/*lock*
 **/.env*
 **/coverage/**
-**/*db_commands*

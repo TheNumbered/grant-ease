@@ -23,7 +23,9 @@ export const UserApplications = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
+  const toUpper = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   return (
       <Box
         display="flex"
@@ -56,7 +58,7 @@ export const UserApplications = () => {
                     ).map(application => (
                       <TableRow key={application.applicant_id}>
                         <TableCell>{application.title}</TableCell>
-                        <TableCell>{application.status}</TableCell>
+                        <TableCell>{toUpper(application.status)}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

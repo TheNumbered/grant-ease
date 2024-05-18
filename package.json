@@ -10,8 +10,7 @@
     "frontend": "cd frontend && vite",
     "build": "cd frontend && vite build",
     "test": "vitest",
-		"coverage" : "vitest --coverage",
-    "db": "node backend/db/db_commands.js"
+		"coverage" : "vitest --coverage"
   },
   "author": "",
   "license": "ISC",

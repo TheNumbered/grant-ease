@@ -9,7 +9,7 @@
         
         "**/dist": true,
         "**/pnpm*": true,
-        //"**/vite*": true,
+        "**/vite*": true,
         "**/*config*": true,
         "**/.es*": true,
      },

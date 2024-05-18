@@ -1,9 +1,7 @@
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 import express from "express";
 import fs from 'fs';
 import multer, { diskStorage } from 'multer';
 import path from 'path';
-import { db } from "../../db/index.js";
 
 const router = express.Router();
 
@@ -27,11 +25,11 @@ const storage = diskStorage({
 const upload = multer({ storage: storage });
 
 // POST endpoint for creating funding opportunities
-router.post("/create-funding-opportunities",ClerkExpressRequireAuth() ,upload.single('image'), (req, res) => {
+router.post("/create-funding-opportunities", upload.single('image'), (req, res) => {
     const id = req.auth.userId;
     const { title, description, amount, deadline, start_date, end_date } = req.body;
     const image = req.file.path;
-    db.query(
+    req.db.query(
         `
         INSERT INTO funding_opportunities (manager_id, title, description, amount, deadline, start_date, end_date, image)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);

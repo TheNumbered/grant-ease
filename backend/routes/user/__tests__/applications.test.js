@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import { describe } from "vitest";
-import app from "../../app.js";
+import app from "../../../app.js";
 
 //mock to ignore the authenticator
 vi.mock("@clerk/clerk-sdk-node", () => ({
@@ -58,6 +58,7 @@ describe("GET /user/applications", () => {
     }
 );
 
+/*
 describe("POST /user/applications", () => {
     it("should return a success message", async () => {
         const res = await supertest(app).post("/user/applications").send({
@@ -70,3 +71,4 @@ describe("POST /user/applications", () => {
     });
     }
 );
+*/

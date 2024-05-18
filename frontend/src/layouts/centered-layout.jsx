@@ -1,5 +1,5 @@
 
-export const CenteredLayout = ({ children, extras }) => {
+export const CenteredLayout = ({ children, extras, styles }) => {
   return <section
     className="centered-layout"
     style={{
@@ -9,6 +9,7 @@ export const CenteredLayout = ({ children, extras }) => {
       alignItems: "center",
       height: "100vh",
       width: "100%",
+      ...styles,
     }}
     {...extras}
   >{children}</section>;

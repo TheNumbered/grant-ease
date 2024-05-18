@@ -30,7 +30,7 @@ function App() {
       </CenteredLayout>
     );
   }
-
+  
   return (
     <BrowserRouter>
       <Routes>

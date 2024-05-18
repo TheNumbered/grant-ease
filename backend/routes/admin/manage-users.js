@@ -1,55 +1,43 @@
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 import express from "express";
-import { db } from "../../db/index.js";
 const router = express.Router();
 
-router.get("/users", ClerkExpressRequireAuth(), async (req, res) => {
-    db.query("SELECT * FROM user;", (err, result) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
-        } else {
-            res.json(result);
-        }
+
+router.get("/users",  (req, res, next) => {
+    req.db.query("SELECT * FROM user;", (err, result) => {
+        if (err) return next(err);
+        res.json(result);
     });
 });
 
-router.get("/pending-managers", ClerkExpressRequireAuth(), async (req, res) => {
-    db.query("SELECT * FROM user WHERE role = 'fund_manager_pending'; ", (err, result) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
-        } else {
-            res.json(result);
-        }
+router.get("/pending-managers",  (req, res, next) => {
+    req.db.query("SELECT * FROM user WHERE role = 'fund_manager_pending'; ", (err, result) => {
+        if (err) return next(err);
+        res.json(result);
     });
 });
 
-router.put("/toggle-ban/:id", async (req, res) => {
-    db.query("UPDATE user SET is_banned = ? WHERE id = ?", [req.body.is_banned, req.params.id], (err, result) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
-        } else {
-            res.json({ message: "User banned status updated successfully" });
-        }
+router.put("/toggle-ban/:id",  (req, res, next) => {
+    req.db.query("UPDATE user SET is_banned = ? WHERE id = ?", [req.body.is_banned, req.params.id], (err, result) => {
+        if (err) return next(err);
+        res.json({ message: "User banned status updated successfully" });
     });
 });
 
-router.post("/update-roles", ClerkExpressRequireAuth(), async (req, res) => {
+router.post("/update-roles",   (req, res, next) => {
     const { ids, newRole } = req.body;
 
-    if (!ids || !newRole) {
-        return res.status(400).json({ message: "Missing required parameters" });
-    }
+    if (!ids || !newRole) return next(new Error("Missing required parameters"));
 
-    db.query("UPDATE user SET role = ? WHERE id IN (?)", [newRole, ids], (err, result) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
-        } else {
-            res.json({ message: "Roles updated successfully" });
+    req.db.query("UPDATE user SET role = ? WHERE id IN (?)", [newRole, ids], (err, result) => {
+        if (err) return next(err);
+        if(newRole === 'fund_manager'){
+            ids.forEach(id => {
+                req.db.query("INSERT INTO fund_manager_info (manager_id) VALUES (?)", [id], (err, result) => {
+                    if (err) return next(err);
+                });
+            });
         }
+        res.json({ message: "Roles updated successfully" });
     });
 });
 

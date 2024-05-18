@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import { describe, expect } from "vitest";
-import app from "../../app.js";
+import app from "../../../app.js";
 //mock to ignore the authenticator
 vi.mock("@clerk/clerk-sdk-node", () => ({
   ClerkExpressRequireAuth: () => (req, res, next) => {

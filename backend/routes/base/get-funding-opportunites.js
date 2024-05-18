@@ -1,12 +1,11 @@
 import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 import express from "express";
-import { db } from "../db/index.js";
 const router = express.Router();
 
 router.get("/funding-opportunities", ClerkExpressRequireAuth() , (req, res) => {
     const applicant_id = req.auth.userId;
     
-    db.query(
+    req.db.query(
         `SELECT fo.*, 
             (SELECT status 
             FROM funding_applications fa 
