@@ -9,7 +9,7 @@ const ManagerBalance = () => {
     data: numApplicants,
     isError: errorApplicants,
     isLoading: loadingApplicants,
-  } = getQuery("get-num-applicants");
+  } = getQuery("manager/get-num-applicants");
 
   // Check if both data and numApplicants are defined
   const isDataLoaded =

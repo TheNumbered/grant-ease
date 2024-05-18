@@ -16,7 +16,7 @@ import { LoadingPage } from "../../loading-page";
 import ManageApplications from "./applications";
 
 export const ManagerFundingAdvertisements = () => {
-  const { data, isError, isLoading } = getQuery("get-funding-opportunities");
+  const { data, isError, isLoading } = getQuery("manager/get-funding-opportunities");
   const [selectedOpportunity, setSelectedOpportunity] = useState(null);
   const [paperOpen, setPaperOpen] = useState(false);
 

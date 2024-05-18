@@ -23,7 +23,7 @@ export default function FundManagerOverviewCards({ data, applicants }) {
 
   const { mutate: updateBalance } = createMutation({
     resource: "manager/add-balance",
-    invalidateKeys: ["balance"],
+    invalidateKeys: ["manager/balance"],
   });
   console.log(amount);
 
