@@ -13,7 +13,9 @@ import { useTheme } from "@mui/material/styles";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createMutation } from "../../../dataprovider";
-import { BasicLineChart } from "./LineGraph";
+import { BarAnimation } from "./bar-graph";
+import { Basic } from "./line-graph";
+import { PieArcLabel } from "./pie-chart";
 
 export default function FundManagerOverviewCards({ data, applicants }) {
   const theme = useTheme();
@@ -55,8 +57,19 @@ export default function FundManagerOverviewCards({ data, applicants }) {
           <small>Jan 21/2024 - Now</small>
           <p className="card-title">Funds You've Offered</p>
           <section className="graph-area">
-            <BasicLineChart />
+            <PieArcLabel />
+
           </section>
+          <section className="graph-area">
+            
+            <BarAnimation/>
+          </section>
+
+          <section className="graph-area">
+            
+            <Basic/>
+          </section>
+          
         </article>
         <article className="card-group">
           <section style={{ direction: "flex", display: "flex" }}>
