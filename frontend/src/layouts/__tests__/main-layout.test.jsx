@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { MainLayout } from './main-layout';
+import { MainLayout } from '../main-layout';
 
 vi.mock('../components/app-bar', () => ({
     default: () => <header role="banner">App Bar</header>

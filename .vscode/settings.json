@@ -5,7 +5,7 @@
         "**/coverage": true,
 
         "**/README.md": true,
-        "**/.git*": true,
+        //"**/.git*": true,
         
         "**/dist": true,
         "**/pnpm*": true,

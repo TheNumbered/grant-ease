@@ -1,0 +1,321 @@
+.HeroSection form {
+    border: 2px solid #095f59;
+    display: flex;
+    font-size: 1rem;
+    justify-content: space-between;
+    border-radius: 3rem;
+    padding: 0.5rem;
+}
+
+.HeroSection form #find-funding {
+    border: none;
+    margin-left: 1rem;
+    background-color: #fffbef;
+    width: -moz-available;
+}
+
+.HeroSection form #find-funding:focus {
+    border: none !important;
+    outline: none;
+}
+
+.HeroSection form button {
+    padding: 1.3rem 2.6rem;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 2rem;
+    background-color: #095f59;
+}
+
+.card h2, .card p {
+    margin: 0;
+}
+
+.card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.card {
+    border-radius: 2rem;
+    padding: 2rem;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border: 1px solid #ffd661;
+}
+
+.card-footer {
+    margin-top: 1rem;
+}
+
+.card .card-footer .btn, .card .card-footer .btn-disabled {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: #095f59;
+    border-radius: 0.3rem;
+    color: #fff;
+}
+
+.card .card-footer .btn:hover {
+    opacity: 0.8;
+}
+
+.card .card-footer .btn-disabled {
+    opacity: 0.5;
+}
+
+@media only screen and (max-width: 600px) {
+    main {
+        padding: 0.25rem;
+    }
+    .card.graph-card {
+        display: none;
+    }
+    .banner-area {
+        margin: 2rem;
+    }
+    .card-row {
+        flex-direction: column;
+    }
+    .z-axis-sticky-tab {
+        width: 100%;
+        padding: 0;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 900px) {
+    main {
+        padding: 0;
+    }
+    .banner-area {
+        margin: 2rem;
+    }
+    .card-row {
+        flex-direction: column;
+    }
+    .card.graph-card {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 901px) {
+    .banner-area {
+        margin: 2rem;
+        margin-left: 0;
+    }
+    main {
+        padding: 3rem;
+    }
+    .z-axis-sticky-tab {
+        position: fixed;
+        top: 0;
+        border-radius: 0;
+        right: 0;
+        display: block;
+        width: 30%;
+        overflow: 'auto';
+        height: 100%;
+        padding: 2rem 0;
+        background: #fff;
+        z-index: 5;
+        box-shadow: -5px 5px 5px -3px rgba(0,0,0,0.1),0px 8px 10px 1px rgba(0,0,0,0.1),0px 3px 14px 2px rgba(0,0,0,0);
+    }
+    .z-axis-sticky-tab .sticky-tab-close-btn{
+        position: absolute;
+        left: -15px;
+        background: #fff;
+        outline: none;
+        border: 1px solid #f90;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+    }
+    header{
+        z-index: 10;
+    }
+}
+
+header {
+    display: flex;
+    justify-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.card-title {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.stacked-cards {
+    height: fit-content;
+}
+
+article {
+    margin: .25rem;
+}
+
+header nav {
+    display: flex;
+}
+
+.navbar {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+main {
+    background: #fffbef;
+}
+
+main .banner-area h2 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+p, h3 {
+    margin: 0;
+}
+
+.card.graph-card {
+    padding: 2rem 0 !important;
+    width: 50%;
+}
+
+.card.graph-card h3, .card.graph-card small, .card.graph-card p {
+    padding: 0 2rem;
+}
+
+.stacked-cards > :first-child {
+    background: #00000000;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+}
+
+.stacked-cards > :last-child {
+    background: #000000ab;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}
+
+.stacked-cards {
+    border-radius: 2rem;
+}
+
+.stacked-cards h3, .card-group h3 {
+    font-weight: inherit;
+    font-size: 1rem;
+    color: #555;
+}
+
+.stacked-cards big, big {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.stacked-cards section {
+    background: #0000004f;
+    padding: 2rem;
+    text-align: center;
+    padding-top: 2.8rem;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.stacked-cards big, .stacked-cards h3 {
+    color: #fff !important;
+}
+
+.stacked-cards section:hover {
+    background-color: #e7e7e745;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.stacked-cards button {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 2rem;
+}
+
+.stacked-cards button i {
+    display: block;
+    background: #fff;
+    text-align: center;
+    margin-left: auto;
+    color: #095f59;
+    font-size: 2rem;
+    line-height: 2.5rem;
+    margin-right: auto;
+}
+
+.card .action-area {
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid #095f59;
+}
+
+.card .icon-area, .card-icon-area {
+    padding: 0.4rem;
+    border-radius: 2rem;
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    line-height: 3rem;
+}
+
+.action-button {
+    cursor: pointer;
+}
+
+.card-big-text {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.card-row {
+    display: flex;
+}
+
+.Banned {
+    color: rgb(230, 34, 0) !important;
+    font-weight: bold !important;
+}
+
+.Active {
+    color: green !important;
+    font-weight: bold !important;
+}
+
+.page-heading-section h1 {
+    font-size: 2rem;
+}
+
+.page-heading-section small {
+    font-size: 1rem;
+}
+
+body, main {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.notifications-area {
+    width: 100%;
+}
+
+
+
+.text-center {
+    text-align: center;
+}

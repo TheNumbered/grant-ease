@@ -3,13 +3,11 @@ import { useState } from "react";
 import { getQuery } from "../../dataprovider";
 import { LoadingPage } from "../loading-page";
 import ApplyModal from "./apply-modal";
-import "./funding-page-styles.css";
 
 const FundingPage = () => {
   const { data, isError, isLoading } = getQuery("funding-opportunities");
-
   const [openModal, setOpenModal] = useState(false);
-
+  
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -17,7 +15,7 @@ const FundingPage = () => {
     return <div>Error</div>;
   }
 
-  return (
+  return (    
     <>
       <section className="HeroSection">
         <h1 style={{ marginTop: "0" }}>Find Your Funding Here!</h1>

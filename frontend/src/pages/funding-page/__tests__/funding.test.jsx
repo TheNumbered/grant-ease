@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import FundingPage from "./funding";
+import FundingPage from "../funding";
 
 const mockData = [
   {

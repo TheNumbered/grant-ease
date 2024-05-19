@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
-import ManageUsers from './manage-users';
+import ManageUsers from '../manage-users';
 
 // Mocking the data
 const mockUserData = [

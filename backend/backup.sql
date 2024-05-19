@@ -36,6 +36,7 @@ CREATE TABLE `fund_manager_info` (
 
 LOCK TABLES `fund_manager_info` WRITE;
 /*!40000 ALTER TABLE `fund_manager_info` DISABLE KEYS */;
+INSERT INTO `fund_manager_info` VALUES ('user_2fRrReuhQitawnUcZeQsEu70VIl',200400.00);
 /*!40000 ALTER TABLE `fund_manager_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +67,6 @@ CREATE TABLE `funding_applications` (
 
 LOCK TABLES `funding_applications` WRITE;
 /*!40000 ALTER TABLE `funding_applications` DISABLE KEYS */;
-INSERT INTO `funding_applications` VALUES (11,3,'pending','user_2fRrReuhQitawnUcZeQsEu70VIl','[\"uploads\\\\user_documents\\\\user_2fRrReuhQitawnUcZeQsEu70VIl\\\\attachments-1716035914546.png\", \"uploads\\\\user_documents\\\\user_2fRrReuhQitawnUcZeQsEu70VIl\\\\attachments-1716035914560.png\"]');
 /*!40000 ALTER TABLE `funding_applications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ CREATE TABLE `funding_opportunities` (
   PRIMARY KEY (`id`),
   KEY `manager_id` (`manager_id`),
   CONSTRAINT `funding_opportunities_ibfk_1` FOREIGN KEY (`manager_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `funding_opportunities` (
 
 LOCK TABLES `funding_opportunities` WRITE;
 /*!40000 ALTER TABLE `funding_opportunities` DISABLE KEYS */;
-INSERT INTO `funding_opportunities` VALUES (1,'Research Grant','Funding for research projects in various fields.',50000.00,'2024-05-31','2024-06-15','2024-07-15','user1',NULL),(2,'Scholarship Program','Funding for students pursuing higher education.',100000.00,'2024-06-30','2024-07-01','2024-09-01','user1',NULL),(3,'Community Development Fund','Funding for community projects and initiatives.',75000.00,'2024-06-15','2024-07-01','2024-08-15','user1',NULL);
+INSERT INTO `funding_opportunities` VALUES (4,'Community Development Fund','A fund to support community development projects.',50000.00,'2024-12-31','2024-06-01','2024-12-31','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL),(5,'Education Grant','Grants for educational initiatives and programs.',100000.00,'2024-11-30','2024-07-01','2024-11-30','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL),(6,'Healthcare Support Fund','Funding for healthcare facilities and services.',75000.00,'2024-10-15','2024-05-15','2024-10-15','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL),(7,'Environmental Protection Grant','Grants to support environmental protection projects.',85000.00,'2024-09-30','2024-06-15','2024-09-30','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL),(8,'Small Business Grant','Funding for small businesses to foster growth and innovation.',60000.00,'2024-08-31','2024-06-01','2024-08-31','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL);
 /*!40000 ALTER TABLE `funding_opportunities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,7 +125,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('1','Admin',1,'Admin Name'),('2','Manager',1,'Manager Name'),('3','User',0,'User Name 4'),('4','Manager',0,'Manager Name 2'),('user_2feQFiOlDop780ICmITQhV7ZXhF','user',0,'User Name 1'),('user_2flejTji7TX3uLDvK2ALSOf2XAI','user',0,'User Name 2'),('user_2fmMWaYxTVrTchJz7TvlO7WNVbA','user',0,NULL),('user_2fqNqCrOjTPi4plyROeE98P69NX','user',0,'User Name 3'),('user_2fRrReuhQitawnUcZeQsEu70VIl','user',0,NULL),('user1','manager',0,'Manager Name 1'),('user2','applicant',0,'Applicant Name 1'),('user3','applicant',0,'Applicant Name 2');
+INSERT INTO `user` VALUES ('user_2fRrReuhQitawnUcZeQsEu70VIl','admin',0,'DANIEL NGOBE');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -138,4 +138,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-18 14:50:30
+-- Dump completed on 2024-05-18 17:16:36

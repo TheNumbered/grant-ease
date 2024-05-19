@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { StatusChangeTable } from './status-change-table';
+import { StatusChangeTable } from '../status-change-table';
 
 describe('StatusChangeTable', () => {
     const title = 'Test Table';

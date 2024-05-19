@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { CenteredLayout } from './centered-layout';
+import { CenteredLayout } from '../centered-layout';
 
 describe('CenteredLayout', () => {
   test('renders children', () => {

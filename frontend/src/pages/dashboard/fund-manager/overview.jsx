@@ -25,7 +25,6 @@ export default function FundManagerOverviewCards({ data, applicants }) {
     resource: "manager/add-balance",
     invalidateKeys: ["manager/balance"],
   });
-  console.log(amount);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);

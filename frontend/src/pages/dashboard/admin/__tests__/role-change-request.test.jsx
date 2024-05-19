@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
-import RoleChangeRequest from './role-change-request';
+import RoleChangeRequest from '../role-change-request';
 
 // Mocking components and functions
 vi.mock("../../../components/status-change-table", () => ({
