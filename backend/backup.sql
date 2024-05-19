@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.37, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: grant_ease
+-- Host: grant-ease-server.mysql.database.azure.com    Database: grant_ease_db
 -- ------------------------------------------------------
--- Server version	8.0.36
+-- Server version	8.0.36-cluster
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -138,4 +138,8 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+<<<<<<< HEAD
 -- Dump completed on 2024-05-18 17:16:36
+=======
+-- Dump completed on 2024-05-18 17:20:00
+>>>>>>> 8e1a0eb1a75a7b18c97da68ca852176c37baa27d
