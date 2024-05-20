@@ -17,6 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const StatusChangeTable = ({
   title,
@@ -24,37 +25,19 @@ export const StatusChangeTable = ({
   headers,
   handleStatusChange,
 }) => {
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const [attachments, setAttachments] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      setSelected(data.map((n) => n.id));
-    } else {
-      setSelected([]);
-    }
-  };
-
   const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = [...selected, id];
-    } else if (selectedIndex === 0) {
-      newSelected = selected.slice(1);
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = selected.slice(0, -1);
-    } else if (selectedIndex > 0) {
-      newSelected = [
-        ...selected.slice(0, selectedIndex),
-        ...selected.slice(selectedIndex + 1),
-      ];
+    if (selected === id) {
+      setSelected(null); // Deselect if the same item is clicked again
+    } else {
+      setSelected(id); // Select the new item
+      setAttachments(data.find((row) => row.id === id).attachments);
     }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => setPage(newPage);
@@ -63,31 +46,32 @@ export const StatusChangeTable = ({
     setPage(0);
   };
   const handleChangeDense = (event) => setDense(event.target.checked);
-  const isSelected = (id) => selected.indexOf(id) !== -1;
+  const isSelected = (id) => selected === id;
 
-  const emptyRows = Math.max(0, rowsPerPage - data.length);
+  const navigate = useNavigate();
 
-  const handleApprove = () => {
-    handleStatusChange(selected, "approve");
-    setSelected([]);
+  const handleReview = (selectedUser, selectedUserAttachments) => {
+    console.log(selectedUser);
+    console.log(selectedUserAttachments);
+    navigate("/applicant-info", {
+      state: { pdfUrl: selectedUserAttachments },
+    });
   };
 
-  const handleReject = () => {
-    handleStatusChange(selected, "reject");
-    setSelected([]);
-  };
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <Toolbar>
-          {selected.length > 0 ? (
+          {selected !== null ? (
             <Typography
               variant="subtitle1"
               component="div"
               sx={{ flex: "1 1 100%" }}
             >
-              {selected.length} selected
+              1 selected
             </Typography>
           ) : (
             <Typography variant="h6" component="div" sx={{ flex: "1 1 100%" }}>
@@ -95,20 +79,14 @@ export const StatusChangeTable = ({
             </Typography>
           )}
 
-          {selected.length > 0 && (
+          {selected !== null && (
             <Stack direction="row" spacing={2}>
-              {/* <Button variant="outlined" color="success">
-                Review
-              </Button> */}
               <Button
-                variant="contained"
+                variant="outlined"
                 color="success"
-                onClick={handleApprove}
+                onClick={() => handleReview(selected, attachments)}
               >
-                Approve
-              </Button>
-              <Button variant="outlined" color="error" onClick={handleReject}>
-                Reject
+                Review
               </Button>
             </Stack>
           )}
@@ -118,13 +96,7 @@ export const StatusChangeTable = ({
           <Table sx={{ minWidth: 750 }} size={dense ? "small" : "medium"}>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    color="primary"
-                    inputProps={{ "aria-label": "select all users" }}
-                    onChange={handleSelectAllClick}
-                  />
-                </TableCell>
+                <TableCell padding="checkbox" />
                 {headers.map((header, index) => (
                   <TableCell align="left" key={index}>
                     {header}

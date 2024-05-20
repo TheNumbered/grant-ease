@@ -45,7 +45,6 @@ export default function FundManagerOverviewCards() {
     handleCloseDialog();
   };
 
-
   const { data, isError, isLoading } = getQuery("manager/balance");
 
   // Use getQuery to get the number of applicants
@@ -58,13 +57,13 @@ export default function FundManagerOverviewCards() {
   // Check if both data and numApplicants are defined
   const isDataLoaded =
     !isLoading && !loadingApplicants && data && numApplicants;
-  
-  if(!isDataLoaded){
-    return <p>Loading...</p>
+
+  if (!isDataLoaded) {
+    return <p>Loading...</p>;
   }
 
-  if(isError || errorApplicants){
-    return <p>Error</p>
+  if (isError || errorApplicants) {
+    return <p>Error</p>;
   }
 
   const numApplicant = numApplicants[0].num_applicants;
@@ -79,18 +78,14 @@ export default function FundManagerOverviewCards() {
           <p className="card-title">Funds You've Offered</p>
           <section className="graph-area">
             <PieArcLabel />
-
           </section>
           <section className="graph-area">
-            
-            <BarAnimation/>
+            <BarAnimation />
           </section>
 
           <section className="graph-area">
-            
-            <Basic/>
+            <Basic />
           </section>
-          
         </article>
         <article className="card-group">
           <section style={{ direction: "flex", display: "flex" }}>

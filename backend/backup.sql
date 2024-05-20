@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.37, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: grant-ease-server.mysql.database.azure.com    Database: grant_ease_db
 -- ------------------------------------------------------
@@ -36,7 +36,7 @@ CREATE TABLE `fund_manager_info` (
 
 LOCK TABLES `fund_manager_info` WRITE;
 /*!40000 ALTER TABLE `fund_manager_info` DISABLE KEYS */;
-INSERT INTO `fund_manager_info` VALUES ('user_2fRrReuhQitawnUcZeQsEu70VIl',200400.00);
+INSERT INTO `fund_manager_info` VALUES ('user_2fRrReuhQitawnUcZeQsEu70VIl',194600.00);
 /*!40000 ALTER TABLE `fund_manager_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,12 +53,13 @@ CREATE TABLE `funding_applications` (
   `status` varchar(50) DEFAULT NULL,
   `applicant_id` varchar(50) DEFAULT NULL,
   `attachments` json DEFAULT NULL,
+  `additional_fields` json DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fund_id` (`fund_id`),
   KEY `applicant_id` (`applicant_id`),
   CONSTRAINT `funding_applications_ibfk_1` FOREIGN KEY (`fund_id`) REFERENCES `funding_opportunities` (`id`),
   CONSTRAINT `funding_applications_ibfk_2` FOREIGN KEY (`applicant_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +68,7 @@ CREATE TABLE `funding_applications` (
 
 LOCK TABLES `funding_applications` WRITE;
 /*!40000 ALTER TABLE `funding_applications` DISABLE KEYS */;
+INSERT INTO `funding_applications` VALUES (12,9,'approved','user_2fRrReuhQitawnUcZeQsEu70VIl','[\"uploads\\\\user_documents\\\\user_2fRrReuhQitawnUcZeQsEu70VIl\\\\attachments-1716198353699.png\", \"uploads\\\\user_documents\\\\user_2fRrReuhQitawnUcZeQsEu70VIl\\\\attachments-1716198353712.png\"]',NULL),(13,11,'pending','user_2fRrReuhQitawnUcZeQsEu70VIl','[\"uploads\\\\user_documents\\\\user_2fRrReuhQitawnUcZeQsEu70VIl\\\\attachments-1716209876326.png\"]','\"{\\\"Gender\\\":\\\"Male\\\",\\\"Full Name\\\":\\\"Daniel\\\"}\"'),(14,5,'pending','user_2fRrReuhQitawnUcZeQsEu70VIl','[]','\"{}\"');
 /*!40000 ALTER TABLE `funding_applications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,10 +89,12 @@ CREATE TABLE `funding_opportunities` (
   `end_date` date DEFAULT NULL,
   `manager_id` varchar(36) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
+  `additional_fields` json DEFAULT NULL,
+  `required_files` json DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `manager_id` (`manager_id`),
   CONSTRAINT `funding_opportunities_ibfk_1` FOREIGN KEY (`manager_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +103,7 @@ CREATE TABLE `funding_opportunities` (
 
 LOCK TABLES `funding_opportunities` WRITE;
 /*!40000 ALTER TABLE `funding_opportunities` DISABLE KEYS */;
-INSERT INTO `funding_opportunities` VALUES (4,'Community Development Fund','A fund to support community development projects.',50000.00,'2024-12-31','2024-06-01','2024-12-31','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL),(5,'Education Grant','Grants for educational initiatives and programs.',100000.00,'2024-11-30','2024-07-01','2024-11-30','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL),(6,'Healthcare Support Fund','Funding for healthcare facilities and services.',75000.00,'2024-10-15','2024-05-15','2024-10-15','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL),(7,'Environmental Protection Grant','Grants to support environmental protection projects.',85000.00,'2024-09-30','2024-06-15','2024-09-30','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL),(8,'Small Business Grant','Funding for small businesses to foster growth and innovation.',60000.00,'2024-08-31','2024-06-01','2024-08-31','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL);
+INSERT INTO `funding_opportunities` VALUES (4,'Community Development Fund','A fund to support community development projects.',50000.00,'2024-12-31','2024-06-01','2024-12-31','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL,NULL,NULL),(5,'Education Grant','Grants for educational initiatives and programs.',100000.00,'2024-11-30','2024-07-01','2024-11-30','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL,NULL,NULL),(6,'Healthcare Support Fund','Funding for healthcare facilities and services.',75000.00,'2024-10-15','2024-05-15','2024-10-15','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL,NULL,NULL),(7,'Environmental Protection Grant','Grants to support environmental protection projects.',85000.00,'2024-09-30','2024-06-15','2024-09-30','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL,NULL,NULL),(8,'Small Business Grant','Funding for small businesses to foster growth and innovation.',60000.00,'2024-08-31','2024-06-01','2024-08-31','user_2fRrReuhQitawnUcZeQsEu70VIl',NULL,NULL,NULL),(9,'Title','Gegg',2000.00,'2024-05-20','2024-05-20','2024-05-20','user_2fRrReuhQitawnUcZeQsEu70VIl','uploads\\funding_opportunities\\title\\image-1716154323217.png',NULL,NULL),(10,'Test ','New One',2000.00,'2024-05-23','2024-05-21','2024-05-22','user_2fRrReuhQitawnUcZeQsEu70VIl','uploads\\funding_opportunities\\test_\\image-1716201937969.png',NULL,NULL),(11,'Another One','Hello',2000.00,'2024-05-21','2024-05-21','2024-05-21','user_2fRrReuhQitawnUcZeQsEu70VIl','uploads\\funding_opportunities\\another_one\\image-1716202230366.png','\"[{\\\"name\\\":\\\"Gender\\\",\\\"description\\\":\\\"Either male or female\\\",\\\"data_type\\\":\\\"string\\\"},{\\\"name\\\":\\\"Full Name\\\",\\\"description\\\":\\\"Your Full Name\\\",\\\"data_type\\\":\\\"string\\\"}]\"','\"[{\\\"file_name\\\":\\\"Id\\\",\\\"description\\\":\\\"Add your Id\\\"}]\"');
 /*!40000 ALTER TABLE `funding_opportunities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,8 +142,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-<<<<<<< HEAD
--- Dump completed on 2024-05-18 17:16:36
-=======
--- Dump completed on 2024-05-18 17:20:00
->>>>>>> 8e1a0eb1a75a7b18c97da68ca852176c37baa27d
+-- Dump completed on 2024-05-20 15:19:26
