@@ -12,12 +12,12 @@ import {
 import { useTheme } from "@mui/material/styles";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createMutation } from "../../../dataprovider";
+import { createMutation, getQuery } from "../../../dataprovider";
 import { BarAnimation } from "./bar-graph";
 import { Basic } from "./line-graph";
 import { PieArcLabel } from "./pie-chart";
 
-export default function FundManagerOverviewCards({ data, applicants }) {
+export default function FundManagerOverviewCards() {
   const theme = useTheme();
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
@@ -45,7 +45,29 @@ export default function FundManagerOverviewCards({ data, applicants }) {
     handleCloseDialog();
   };
 
-  let numApplicants = applicants[0].num_applicants;
+
+  const { data, isError, isLoading } = getQuery("manager/balance");
+
+  // Use getQuery to get the number of applicants
+  const {
+    data: numApplicants,
+    isError: errorApplicants,
+    isLoading: loadingApplicants,
+  } = getQuery("manager/get-num-applicants");
+
+  // Check if both data and numApplicants are defined
+  const isDataLoaded =
+    !isLoading && !loadingApplicants && data && numApplicants;
+  
+  if(!isDataLoaded){
+    return <p>Loading...</p>
+  }
+
+  if(isError || errorApplicants){
+    return <p>Error</p>
+  }
+
+  const numApplicant = numApplicants[0].num_applicants;
   let balance = data[0].balance;
 
   return (
@@ -83,7 +105,7 @@ export default function FundManagerOverviewCards({ data, applicants }) {
                 </i>
               </section>
               <h3>Total Applicants Received</h3>
-              <big>{numApplicants}</big>
+              <big>{numApplicant}</big>
             </article>
             <article className="card">
               <section

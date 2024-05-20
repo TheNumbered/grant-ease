@@ -29,7 +29,7 @@ function a11yProps(index) {
   };
 }
 
-export const FundManagerDashboard = ({ data, applicants }) => {
+export const FundManagerDashboard = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -57,7 +57,7 @@ export const FundManagerDashboard = ({ data, applicants }) => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <FundManagerOverviewCards data={data} applicants={applicants} />
+          <FundManagerOverviewCards />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           {/* <ManageApplications /> */}

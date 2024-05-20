@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getQuery } from "../../dataprovider";
 import { LoadingPage } from "../loading-page";
 import ApplyModal from "./apply-modal";
@@ -7,7 +7,20 @@ import ApplyModal from "./apply-modal";
 const FundingPage = () => {
   const { data, isError, isLoading } = getQuery("funding-opportunities");
   const [openModal, setOpenModal] = useState(false);
-  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  // Update filtered data whenever data or searchQuery changes
+  useEffect(() => {
+    if (data) {
+      setFilteredData(
+        data.filter((fund) =>
+          fund.title.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    }
+  }, [data, searchQuery]);
+
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -15,30 +28,35 @@ const FundingPage = () => {
     return <div>Error</div>;
   }
 
-  return (    
+  return (
     <>
       <section className="HeroSection">
         <h1 style={{ marginTop: "0" }}>Find Your Funding Here!</h1>
         <section className="BigSearchSection">
-          <form action="" method="post">
+          <form onSubmit={(e)=>{e.preventDefault()}}>
             <input
               type="search"
               name="find-funding"
               id="find-funding"
               placeholder="Company or keyword"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: "100%",
+              }}
             />
             <button type="submit">Search</button>
           </form>
         </section>
       </section>
-      
+
       <Grid
         component={"section"}
         container
         spacing={3}
         style={{ marginTop: "1rem" }}
       >
-        {data.map((fund) => (
+        {filteredData.map((fund) => (
           <Grid item key={fund.id} xs={12} sm={6} md={4}>
             <article className="card">
               {fund.image && (
@@ -82,7 +100,11 @@ const FundingPage = () => {
                 )}
               </section>
             </article>
-            <ApplyModal open={openModal} onClose={()=>setOpenModal(false)} fund={fund}/>
+            <ApplyModal
+              open={openModal}
+              onClose={() => setOpenModal(false)}
+              fund={fund}
+            />
           </Grid>
         ))}
       </Grid>
