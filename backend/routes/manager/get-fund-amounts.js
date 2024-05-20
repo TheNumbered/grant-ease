@@ -2,7 +2,8 @@ import express from "express";
 const router = express.Router();
 
 router.get("/fund-amounts", async (req, res) => {
-  const id  = req.auth.userId;
+  // const id  = req.auth.userId;
+  const id = "user2";
   const query = `
     SELECT title, amount
     FROM funding_opportunities

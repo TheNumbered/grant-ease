@@ -2,7 +2,9 @@ import express from "express";
 const router = express.Router();
 
 router.get("/meta",  (req, res, next) => {
-  const {userId:id, userFullName: full_name} = req.auth.claims;
+  // const {userId:id, userFullName: full_name} = req.auth.claims;
+  const id = "user2";
+  const full_name = "RANDOM USER";
   if(!id || !full_name) return res.status(400).json({error: "Invalid user"}); 
 
   req.db.query("SELECT * FROM user WHERE id = ?", [id], (err, result) => {

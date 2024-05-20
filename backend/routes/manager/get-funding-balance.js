@@ -2,9 +2,10 @@ import express from 'express';
 const router = express.Router();
 
 router.get("/funding-balance", async (req, res) => {
-    const id = req.auth.userId;
+    // const id = req.auth.userId;
+    const id = "user2";
     const query = `
-        SELECT  manager_Id,balance,names
+        SELECT  manager_id,balance
         FROM fund_manager_info
     `;
     req.db.query(query, [id], (err, result) => {

@@ -3,7 +3,8 @@ const router = express.Router();
 
 // Route to get funding balance from the database by the fund manager id
 router.get("/balance", (req, res) => {
-  const id = req.auth.userId;
+  // const id = req.auth.userId;
+  const id = "user2";
   //const id = "1";
   req.db.query(
     "SELECT balance FROM fund_manager_info WHERE manager_id = ?",
@@ -21,8 +22,9 @@ router.get("/balance", (req, res) => {
 
 // router that adds balance to the fund manager account
 router.post("/add-balance", (req, res) => {
-  const id = req.auth.userId;
+  // const id = req.auth.userId;
   //const id = "1";
+  const id = "user2";
   const { amount } = req.body;
   console.log(req.body);
   if (!amount) {
@@ -45,7 +47,8 @@ router.post("/add-balance", (req, res) => {
 
 // router that deducts balance from the fund manager account
 router.post("/deduct-balance", (req, res) => {
-  const id = req.auth.userId; // Assuming userId is obtained from authentication
+  // const id = req.auth.userId; // Assuming userId is obtained from authentication
+  const id = "user2";
   //const id = "1"; // For testing, replace "1" with the actual user ID obtained from authentication
   const { amount } = req.body;
 
@@ -96,7 +99,8 @@ router.post("/deduct-balance", (req, res) => {
 
 // router that gets the amount
 router.get("/get-amount", (req, res) => {
-  const id = req.auth.userId;
+  // const id = req.auth.userId;
+  const id = "user2";
   //const id = "1";
   req.db.query(
     "SELECT amount FROM funding_opportunities WHERE id = ?",

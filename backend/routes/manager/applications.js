@@ -2,7 +2,8 @@ import express from "express";
 const router = express.Router();
 
 router.get("/applications",  (req, res, next) => {
-  const id = req.auth.userId;
+  // const id = req.auth.userId;
+  const id = "user2";
   req.db.query(
     `
     SELECT fa.*, u.full_name

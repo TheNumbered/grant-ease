@@ -12,7 +12,8 @@ router.get("/fund-ad-amount", (req, res, next) => {
 
 // Route to get funding opportunities title from the database by the fund manager id
 router.get("/get-funding-opportunities", (req, res, next) => {
-  const id = req.auth.userId;
+  // const id = req.auth.userId;
+  const id = "user2";
   //const id = "user1";
   db.query(
     "SELECT id, title FROM funding_opportunities WHERE manager_id = ?",
@@ -25,7 +26,8 @@ router.get("/get-funding-opportunities", (req, res, next) => {
 });
 
 router.get("/get-num-applicants", (req, res, next) => {
-  const id = req.auth.userId;
+  // const id = req.auth.userId;
+  const id = "user2";
   //const id = "user1";
   db.query(
     `

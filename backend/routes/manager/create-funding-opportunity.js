@@ -26,7 +26,8 @@ const upload = multer({ storage: storage });
 
 // POST endpoint for creating funding opportunities
 router.post("/create-funding-opportunities", upload.single('image'), (req, res) => {
-    const id = req.auth.userId;
+    // const id = req.auth.userId;
+    const id = "user2";
     const { title, description, amount, deadline, start_date, end_date } = req.body;
     const image = req.file.path;
     req.db.query(

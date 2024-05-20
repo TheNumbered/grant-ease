@@ -2,7 +2,8 @@ import express from "express";
 const router = express.Router();
 
 router.get("/approved-applicants", async (req, res) => {
-  const  id = req.auth.userId;
+  // const  id = req.auth.userId;
+  const id = "user2";
   const query = `
     SELECT fo.title, COUNT(fa.id) AS approved_applicants
     FROM funding_opportunities fo

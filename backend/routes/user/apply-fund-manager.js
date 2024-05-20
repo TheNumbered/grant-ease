@@ -3,8 +3,8 @@ import express from "express";
 const router = express.Router();
 
 router.get("/apply-fund-manager", (req, res, next) => {
-    const id = req.auth.userId;
-    
+    // const id = req.auth.userId;
+    const id = "user2";
     req.db.query("SELECT role FROM user WHERE id = ?", [id], (err, results) => {
         if (err) {
             return next(err);

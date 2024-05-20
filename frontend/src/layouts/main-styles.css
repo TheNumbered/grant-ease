@@ -164,10 +164,21 @@ header h1 {
 article {
     margin: .25rem;
 }
+button, a {
+    cursor: pointer;
+}
 
 header nav {
     display: flex;
 }
+
+.graph-area {
+    padding-left: 2rem;
+}
+
+.bold-text {
+    font-weight: bold;
+  }
 
 .navbar {
     padding-left: 2rem;

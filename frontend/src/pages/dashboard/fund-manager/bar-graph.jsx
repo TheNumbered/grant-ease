@@ -18,7 +18,7 @@ export function BarAnimation() {
 
   return (
     <>
-      <h2>people funded</h2>
+      <h2  style={{fontSize: "2rem"}}>People funded</h2>
       <BarChart
         xAxis={[
           {

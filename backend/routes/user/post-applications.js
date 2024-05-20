@@ -22,7 +22,8 @@ const upload = multer({ storage: storage });
 
 
 router.post("/applications", upload.array("attachments", 5), (req, res) => {
-    const applicant_id = req.auth.userId;
+    // const applicant_id = req.auth.userId;
+    const applicant_id = "user2";
     const { fund_id} = req.body;
 
     const attachments = req.files.map(file => file.path);

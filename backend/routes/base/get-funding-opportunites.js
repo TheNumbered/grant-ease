@@ -1,9 +1,12 @@
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+// import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 import express from "express";
 const router = express.Router();
 
-router.get("/funding-opportunities", ClerkExpressRequireAuth() , (req, res) => {
-    const applicant_id = req.auth.userId;
+router.get("/funding-opportunities", 
+    // ClerkExpressRequireAuth() , 
+    (req, res) => {
+    // const applicant_id = req.auth.userId;
+    const applicant_id = "user2";
     
     req.db.query(
         `SELECT fo.*, 
