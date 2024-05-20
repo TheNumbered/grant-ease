@@ -13,7 +13,7 @@ const storage = diskStorage({
         cb(null, dir);
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        cb(null, file.fieldname+ + '-' + Date.now() + path.extname(file.originalname));
     }
 }); 
 
@@ -23,7 +23,7 @@ const upload = multer({ storage: storage });
 
 router.post("/applications", upload.array("attachments", 5), (req, res) => {
     const applicant_id = req.auth.userId;
-    const { fund_id} = req.body;
+    const { fund_id, additional_fields} = req.body;
 
     const attachments = req.files.map(file => file.path);
 
@@ -43,7 +43,7 @@ router.post("/applications", upload.array("attachments", 5), (req, res) => {
             
             req.db.query(
                 "INSERT INTO funding_applications SET ?",
-                { applicant_id, fund_id, status: "pending", attachments: JSON.stringify(attachments) },
+                { applicant_id, fund_id, status: "pending", attachments: JSON.stringify(attachments), additional_fields: JSON.stringify(additional_fields)},
                 (err, result) => {
                     if (err) {
                         console.error("Error inserting into database:", err);

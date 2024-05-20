@@ -15,6 +15,7 @@ app.use(cors());
 
 // Serving images
 app.use("/uploads/funding_opportunities/", express.static("uploads/funding_opportunities/"));
+app.use("/uploads/user_documents/", express.static("uploads/user_documents/"));
 
 // Attach the database to the request object
 app.use((req, res, next) => {

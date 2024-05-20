@@ -27,14 +27,14 @@ const upload = multer({ storage: storage });
 // POST endpoint for creating funding opportunities
 router.post("/create-funding-opportunities", upload.single('image'), (req, res) => {
     const id = req.auth.userId;
-    const { title, description, amount, deadline, start_date, end_date } = req.body;
+    const { title, description, amount, deadline, start_date, end_date, additional_fields, required_files } = req.body;
     const image = req.file.path;
     req.db.query(
         `
-        INSERT INTO funding_opportunities (manager_id, title, description, amount, deadline, start_date, end_date, image)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+        INSERT INTO funding_opportunities (manager_id, title, description, amount, deadline, start_date, end_date, image, additional_fields, required_files)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         `,
-        [id, title, description, amount, deadline, start_date, end_date, image],
+        [id, title, description, amount, deadline, start_date, end_date, image, JSON.stringify(additional_fields), JSON.stringify(required_files)],
         (err, result) => {
             if (err) {
                 console.error("Error querying database:", err);

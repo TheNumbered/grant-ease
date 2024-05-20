@@ -7,6 +7,7 @@ import ApplyModal from "./apply-modal";
 const FundingPage = () => {
   const { data, isError, isLoading } = getQuery("funding-opportunities");
   const [openModal, setOpenModal] = useState(false);
+  const [selectedFund, setSelectedFund] = useState(null);  // New state to track selected fund
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
@@ -95,19 +96,28 @@ const FundingPage = () => {
                     className="btn"
                     type="submit"
                     value="Apply"
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => {
+                      setSelectedFund(fund);  // Set the selected fund
+                      setOpenModal(true);     // Open the modal
+                    }}
                   />
                 )}
               </section>
             </article>
-            <ApplyModal
-              open={openModal}
-              onClose={() => setOpenModal(false)}
-              fund={fund}
-            />
           </Grid>
         ))}
       </Grid>
+
+      {selectedFund && (
+        <ApplyModal
+          open={openModal}
+          fund={selectedFund}
+          onClose={() => {
+            setOpenModal(false);
+            setSelectedFund(null);  // Clear the selected fund on close
+          }}
+        />
+      )}
     </>
   );
 };

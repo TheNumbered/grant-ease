@@ -1,39 +1,92 @@
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { createMutation } from "../../dataprovider";
 
-const ApplyModal = ({open, fund, onClose }) => {
+const ApplyModal = ({ open, fund, onClose }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [additionalFieldsData, setAdditionalFieldsData] = useState({});
 
   const handleFileChange = (event) => {
     setSelectedFiles(Array.from(event.target.files));
   };
 
-  const { mutate: applyForFunding , isLoading: uploading } = createMutation({
+  const handleFieldChange = (event) => {
+    const { name, value } = event.target;
+    setAdditionalFieldsData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const { mutate: applyForFunding, isLoading: uploading } = createMutation({
     resource: "user/applications",
     invalidateKeys: ["funding-opportunities"],
     contentType: "empty"
   });
 
-  const handleConfirm = async () => {  
-      const formData = new FormData();
-      selectedFiles.forEach((file) => {
-        formData.append("attachments", file);
-      });
-      formData.append("fund_id", fund.id);
-      applyForFunding(formData);
-      onClose();
+  const handleConfirm = async () => {
+    const formData = new FormData();
+    selectedFiles.forEach((file) => {
+      formData.append("attachments", file);
+    });
+    formData.append("fund_id", fund.id);
+    formData.append("additional_fields", JSON.stringify(additionalFieldsData));
+    applyForFunding(formData);
+    onClose();
   };
 
+  const requiredFiles = fund.required_files ? JSON.parse(fund.required_files) : [];
+  const additional_fields = fund.additional_fields ? JSON.parse(fund.additional_fields) : [];
+
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle>Upload Documents for {fund.title}</DialogTitle>
       <DialogContent>
-        <input type="file" multiple onChange={handleFileChange} />
+      
+      {additional_fields.length > 0 &&(
+         <Box sx={{ mt: 4 }}>
+         <Typography variant="h6">Additional Fields</Typography>
+         <Grid container spacing={2} sx={{ mt: 1 }}>
+           {additional_fields.map((field) => (
+             <Grid item xs={12} key={field.name}>
+               <TextField
+                 fullWidth
+                 label={field.name}
+                 type={field.data_type}
+                 name={field.name}
+                 required={true}
+                 placeholder={field.description}
+                 onChange={handleFieldChange}
+                 variant="outlined"
+               />
+             </Grid>
+           ))}
+         </Grid>
+       </Box>
+      )}
+     
+
+     {requiredFiles.length > 0 && (
+      
+      <Box sx={{ mt: 2 }}>
+      <Typography variant="h6">Required Documents</Typography>
+     <Grid container spacing={2} sx={{ mt: 1 }}>
+       {requiredFiles.map((file) => (
+         <Grid item xs={12} key={file.file_name}>
+           <label>{file.file_name}</label>
+           <input  type="file" name={file.file_name} onChange={handleFileChange} required style={{display: 'block',
+             marginTop: '8px',
+             padding: '8px',
+             border: '1px solid #ccc',
+             borderRadius: '4px',
+             width: '100%' }} />
+         </Grid>
+       ))}
+     </Grid>
+   </Box>
+     )}
       </DialogContent>
+  
       <DialogActions>
         {uploading && <CircularProgress />}
-        <Button onClick={handleConfirm} disabled={uploading || selectedFiles.length === 0}>
+        <Button onClick={handleConfirm} disabled={uploading}>
           Confirm
         </Button>
         <Button onClick={onClose} disabled={uploading}>

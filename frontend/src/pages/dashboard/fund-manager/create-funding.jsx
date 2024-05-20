@@ -1,4 +1,6 @@
-import { Button, Divider, Grid, InputAdornment, Paper, TextField, Typography } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import { Button, Divider, Grid, IconButton, InputAdornment, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createMutation } from "../../../dataprovider";
@@ -13,6 +15,8 @@ const CreateFundingOpportunity = () => {
   const { showAlert } = useGlobal();
   const [image, setImage] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
+  const [additionalFields, setAdditionalFields] = useState([]);
+  const [requiredFiles, setRequiredFiles] = useState([]);
   const navigate = useNavigate();
 
   const handleFileChange = (e) => {
@@ -20,23 +24,55 @@ const CreateFundingOpportunity = () => {
     setImage(file);
   };
 
+  const handleAddField = () => {
+    setAdditionalFields([...additionalFields, { name: "", description: "", data_type: "" }]);
+  };
+
+  const handleRemoveField = (index) => {
+    const newFields = additionalFields.filter((_, i) => i !== index);
+    setAdditionalFields(newFields);
+  };
+
+  const handleFieldChange = (index, field, value) => {
+    const newFields = [...additionalFields];
+    newFields[index][field] = value;
+    setAdditionalFields(newFields);
+  };
+
+  const handleAddRequiredFile = () => {
+    setRequiredFiles([...requiredFiles, { file_name: "", description: "" }]);
+  };
+
+  const handleRemoveRequiredFile = (index) => {
+    const newFiles = requiredFiles.filter((_, i) => i !== index);
+    setRequiredFiles(newFiles);
+  };
+
+  const handleRequiredFileChange = (index, field, value) => {
+    const newFiles = [...requiredFiles];
+    newFiles[index][field] = value;
+    setRequiredFiles(newFiles);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = new FormData(event.target);
+    form.append("additional_fields", JSON.stringify(additionalFields));
+    form.append("required_files", JSON.stringify(requiredFiles));
     const errors = validateForm(form);
     if (Object.keys(errors).length === 0) {
       createFundingOpportunity(form);
-      
       event.target.reset();
       setImage(null);
+      setAdditionalFields([]);
+      setRequiredFiles([]);
       showAlert("Funding Opportunity created successfully", "success");
+      setValidationErrors({});
     } else {
-      
       setValidationErrors(errors);
     }
   };
 
-  
   const validateForm = (formData) => {
     const errors = {};
     const requiredFields = ["title", "description", "amount", "start_date", "end_date", "deadline"];
@@ -45,7 +81,7 @@ const CreateFundingOpportunity = () => {
         errors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
       }
     });
-  
+
     // Validate image
     const image = formData.get("image");
     if (!image || !image.name) {
@@ -53,7 +89,6 @@ const CreateFundingOpportunity = () => {
     }
     return errors;
   };
-  
 
   return (
     <>
@@ -137,6 +172,106 @@ const CreateFundingOpportunity = () => {
               error={!!validationErrors.deadline}
               helperText={validationErrors.deadline}
             />
+            {/* Additional Fields Section */}
+            <Divider style={{margin: '1rem 0'}}/>
+            <Typography variant="h6" gutterBottom>
+              Additional Fields
+            </Typography>
+            {additionalFields.map((field, index) => (
+              <Grid container spacing={2} key={index}>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    label="Name"
+                    value={field.name}
+                    onChange={(e) => handleFieldChange(index, "name", e.target.value)}
+                    fullWidth
+                    margin="normal"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    label="Description"
+                    value={field.description}
+                    onChange={(e) => handleFieldChange(index, "description", e.target.value)}
+                    fullWidth
+                    margin="normal"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <Select
+                    label="Data Type"
+                    value={field.data_type}
+                    onChange={(e) => handleFieldChange(index, "data_type", e.target.value)}
+                    fullWidth
+                    margin="normal"
+                    displayEmpty
+                  >
+                    <MenuItem value="" disabled>Select Data Type</MenuItem>
+                    <MenuItem value="text">Text</MenuItem>
+                    <MenuItem value="number">Number</MenuItem>
+                    <MenuItem value="date">Date</MenuItem>
+                    <MenuItem value="boolean">Boolean</MenuItem>
+                  </Select>
+                </Grid>
+                <Grid item xs={12} sm={1} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <IconButton onClick={() => handleRemoveField(index)}>
+                    <RemoveIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            ))}
+            <Button
+              variant="outlined"
+              onClick={handleAddField}
+              style={{ margin: '1rem 0' }}
+              startIcon={<AddIcon />}
+              fullWidth
+            >
+              Add Field
+            </Button>
+            {/* End of Additional Fields Section */}
+            {/* Required Files Section */}
+            <Divider style={{margin: '1rem 0'}}/>
+            <Typography variant="h6" gutterBottom>
+              Required Files
+            </Typography>
+            {requiredFiles.map((file, index) => (
+              <Grid container spacing={2} key={index}>
+                <Grid item xs={12} sm={5}>
+                  <TextField
+                    label="File Name"
+                    value={file.file_name}
+                    onChange={(e) => handleRequiredFileChange(index, "file_name", e.target.value)}
+                    fullWidth
+                    margin="normal"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Description"
+                    value={file.description}
+                    onChange={(e) => handleRequiredFileChange(index, "description", e.target.value)}
+                    fullWidth
+                    margin="normal"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={1} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <IconButton onClick={() => handleRemoveRequiredFile(index)}>
+                    <RemoveIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            ))}
+            <Button
+              variant="outlined"
+              onClick={handleAddRequiredFile}
+              style={{ margin: '1rem 0' }}
+              startIcon={<AddIcon />}
+              fullWidth
+            >
+              Add Required File
+            </Button>
+            {/* End of Required Files Section */}
             {/* File Attachment Section */}
             <input
               name="image"
