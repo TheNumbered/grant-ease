@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   Stack,
   TextField,
 } from "@mui/material";
@@ -73,12 +74,13 @@ export default function FundManagerOverviewCards() {
     <article className="card-area">
       <section className="card-row">
         <article className="card graph-card">
-          <h3>History</h3>
-          <small>Jan 21/2024 - Now</small>
+          <h3>Analytics</h3>
+          <small>Budgeting And Fund Disbursement</small>
           <p className="card-title">Funds You've Offered</p>
           <section className="graph-area">
             <PieArcLabel />
           </section>
+            <Divider style={{margin: "2rem 0"}}/>
           <section className="graph-area">
             <BarAnimation />
           </section>

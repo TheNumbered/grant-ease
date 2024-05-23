@@ -39,11 +39,12 @@ const FundingPage = () => {
               type="search"
               name="find-funding"
               id="find-funding"
-              placeholder="Company or keyword"
+              placeholder="Search Company or keyword"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
                 width: "100%",
+                fontSize: "1rem"
               }}
             />
             <button type="submit">Search</button>

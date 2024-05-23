@@ -1,6 +1,7 @@
-import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
+import { PieChart } from '@mui/x-charts/PieChart';
 import * as React from 'react';
 import { getQuery } from '../../../dataprovider';
+
 const convertData = (data) => {
   return data.map((item) => {
     return {
@@ -10,41 +11,36 @@ const convertData = (data) => {
   });
 };
 
-
 const size = {
-  width: 400,
+  width: 600,
   height: 200,
 };
 
 export function PieArcLabel() {
-  const {data,isLoading,isError  }  = getQuery('manager/fund-amounts');
+  const { data, isLoading, isError } = getQuery('manager/fund-amounts');
+  
   if (isLoading) {
     return <div>Loading...</div>;
   }
-if(isError){ 
-     return <div>Error</div>;
-    }
-   const  convertedData = convertData(data);
   
+  if (isError) {
+    return <div>Error</div>;
+  }
+  
+  const convertedData = convertData(data);
   
   return (
-   <> <h2>funding budget</h2>
     <PieChart
       series={[
         {
-          arcLabel: (item) => `R${item.value}M`,
-          arcLabelMinAngle: 45,
           data: convertedData,
+          cx: 142,
         },
       ]}
       sx={{
-        [`& .${pieArcLabelClasses.root}`]: {
-          fill: 'white',
-          fontWeight: 'bold',
-        },
+        // Optionally, you can still style other aspects of the chart here
       }}
       {...size}
     />
-    </> 
   );
 }

@@ -1,5 +1,4 @@
 import { useClerk } from '@clerk/clerk-react';
-import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
@@ -11,11 +10,13 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getQuery } from '../dataprovider';
 import { useGlobal } from '../layouts';
 import ProfileMenu from './profile-menu';
 
 export default function PrimarySearchAppBar() {
   const [profileMenuUser, setProfileMenuUser] = useState(null);
+  const { data, isLoading, isError } = getQuery("unseenNotificationsCount");
   const {setIsNotificationOpen} = useGlobal();
   const { user, signOut } = useClerk();
   const navigate = useNavigate();
@@ -28,6 +29,13 @@ export default function PrimarySearchAppBar() {
     signOut();
     navigate('/sign-in');
   };
+
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
+  if (isError) {
+    return <p>Error</p>;
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }} component={'header'}>
@@ -46,21 +54,22 @@ export default function PrimarySearchAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
+              aria-label="show new notifications"
               color="inherit"
               onClick={() => setIsNotificationOpen(true)}
+              style={{background: "#33726e"}}
             >
-              <Badge badgeContent={17} color="error">
+              {data.unseenCount > 0 ? (
+                <Badge badgeContent={data.unseenCount} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              ) : (
                 <NotificationsIcon />
-              </Badge>
+              )}
             </IconButton>
+
             <IconButton
               size="large"
               aria-label="account of current user"
