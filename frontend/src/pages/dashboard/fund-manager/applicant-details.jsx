@@ -2,11 +2,9 @@ import { Box, Button, Container } from "@mui/material";
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-const PDFViewer = () => {
+export const ApplicantDetails = () => {
   const location = useLocation();
   const attachmentData = location.state.pdfUrl;
-
-  let pdfUrl = import.meta.env.VITE_API_URL + "/" + attachmentData;
 
   const handleDownload = (attachmentUrl) => {
     const link = document.createElement("a");
@@ -21,7 +19,7 @@ const PDFViewer = () => {
   return (
     <Container>
       <Box display="flex" flexDirection="column" alignItems="center">
-        {attachmentData.map((attachmentUrl, index) => (
+        {attachmentData?.map((attachmentUrl, index) => (
           <Button
             key={index}
             variant="contained"
@@ -38,5 +36,3 @@ const PDFViewer = () => {
     </Container>
   );
 };
-
-export default PDFViewer;

@@ -1,4 +1,16 @@
-import { StatusChangeTable } from "../../../components/status-change-table";
+import {
+  Alert,
+  Button,
+  Card,
+  CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@mui/material';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   getQuery,
   createMutation as updateManyMutation,
@@ -49,32 +61,81 @@ export default function ManageApplications({ fundId }) {
       amount: target_amount,
     });
 
-    console.log(returned_data);
-
-    if (returned_data.message === "Balance deducted successfully") {
+    if (returned_data?.message === "Balance deducted successfully") {
       updateIds({ ids: selected, newStatus });
       console.log("good!");
     } else {
       alert("Insufficient balance");
     }
   };
+
+  const nagivate = useNavigate();
+
+  const handleViewDocument = (selectedId) => {
+    
+    const documents = result.find((item) => item.id == selectedId).attachments;
+    console.log("Selected", selectedId, "Documents", documents )
+    nagivate("/applicant-details",{state: {pdfUrl: documents}} )
+  }
   let data = result ?? [];
   data = transformData(data);
 
   function filterByFundId(data, fundId) {
     return data.filter((item) => item.fund_id === fundId);
   }
+
   data = filterByFundId(data, fundId);
+
   return (
     <>
-      {isLoading && <p>Loading...</p>}
-      {isError && <p>Error</p>}
-      <StatusChangeTable
-        title="Manage Applications"
-        data={data}
-        headers={["Full Name", "Status"]}
-        handleStatusChange={handleStatusChange}
-      />
+      {isLoading && <CircularProgress />}
+      {isError && <Alert severity="error">Error loading applications</Alert>}
+      {!isLoading && !isError && (
+        <Card>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Status</TableCell>
+              <TableCell>Full Name</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item["Status"]}</TableCell>
+                <TableCell>{item["Full Name"]}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleStatusChange([item.id], "approve")}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleStatusChange([item.id], "reject")}
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleViewDocument(item.id)}
+                    >
+                      View Document
+                    </Button>
+
+                    
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        </Card>
+      )}
     </>
   );
 }

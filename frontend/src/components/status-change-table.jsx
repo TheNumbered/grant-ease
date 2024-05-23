@@ -14,30 +14,39 @@ import {
   TablePagination,
   TableRow,
   Toolbar,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+  Typography
+} from '@mui/material';
+import { useState } from 'react';
 
-export const StatusChangeTable = ({
-  title,
-  data,
-  headers,
-  handleStatusChange,
-}) => {
-  const [selected, setSelected] = useState(null);
-  const [attachments, setAttachments] = useState([]);
+export const StatusChangeTable = ({ title, data, headers, handleStatusChange }) => {
+  const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleClick = (event, id) => {
-    if (selected === id) {
-      setSelected(null); // Deselect if the same item is clicked again
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      setSelected(data.map((n) => n.id));
     } else {
-      setSelected(id); // Select the new item
-      setAttachments(data.find((row) => row.id === id).attachments);
+      setSelected([]);
     }
+  };
+
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => setPage(newPage);
@@ -46,71 +55,66 @@ export const StatusChangeTable = ({
     setPage(0);
   };
   const handleChangeDense = (event) => setDense(event.target.checked);
-  const isSelected = (id) => selected === id;
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  const navigate = useNavigate();
+  const emptyRows = Math.max(0, rowsPerPage - data.length);
 
-  const handleReview = (selectedUser, selectedUserAttachments) => {
-    console.log(selectedUser);
-    console.log(selectedUserAttachments);
-    navigate("/applicant-info", {
-      state: { pdfUrl: selectedUserAttachments },
-    });
+  const handleApprove = () => {
+    handleStatusChange(selected, 'approve');
+    setSelected([]);
   };
 
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+  const handleReject = () => {
+    handleStatusChange(selected, 'reject');
+    setSelected([]);
+  };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <Toolbar>
-          {selected !== null ? (
-            <Typography
-              variant="subtitle1"
-              component="div"
-              sx={{ flex: "1 1 100%" }}
-            >
-              1 selected
+    <Box sx={{ width: '100%' }}>
+      <Paper sx={{ width: '100%', mb: 2 }}>
+        <Toolbar >
+          {selected.length > 0 ? (
+            <Typography variant="subtitle1" component="div" sx={{ flex: '1 1 100%' }}>
+              {selected.length} selected
             </Typography>
           ) : (
-            <Typography variant="h6" component="div" sx={{ flex: "1 1 100%" }}>
+            <Typography variant="h6" component="div" sx={{ flex: '1 1 100%' }}>
               {title}
             </Typography>
           )}
 
-          {selected !== null && (
+          {selected.length > 0 && (
             <Stack direction="row" spacing={2}>
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={() => handleReview(selected, attachments)}
-              >
-                Review
+              <Button variant="contained" color="success" onClick={handleApprove}>
+                Approve
+              </Button>
+              <Button variant="outlined" color="error" onClick={handleReject}>
+                Reject
               </Button>
             </Stack>
           )}
         </Toolbar>
 
         <TableContainer>
-          <Table sx={{ minWidth: 750 }} size={dense ? "small" : "medium"}>
+          <Table sx={{ minWidth: 750 }} size={dense ? 'small' : 'medium'}>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox" />
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    color="primary"
+                    inputProps={{ 'aria-label': 'select all users' }}
+                    onChange={handleSelectAllClick}
+                  />
+                </TableCell>
                 {headers.map((header, index) => (
-                  <TableCell align="left" key={index}>
-                    {header}
-                  </TableCell>
+                  <TableCell align="left" key={index}>{header}</TableCell>
                 ))}
               </TableRow>
             </TableHead>
 
             <TableBody>
               {(rowsPerPage > 0
-                ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : data
               ).map((row, index) => {
                 const isItemSelected = isSelected(row.id);
@@ -125,19 +129,17 @@ export const StatusChangeTable = ({
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
+                    sx={{ cursor: 'pointer' }}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
-                        inputProps={{ "aria-labelledby": labelId }}
+                        inputProps={{ 'aria-labelledby': labelId }}
                       />
                     </TableCell>
                     {headers.map((header, index) => (
-                      <TableCell align="left" key={index}>
-                        {row[header]}
-                      </TableCell>
+                      <TableCell align="left" key={index}>{row[header]}</TableCell>
                     ))}
                   </TableRow>
                 );

@@ -11,7 +11,7 @@ import { CenteredLayout, MainLayout } from "./layouts";
 import { AdminDashboard } from "./pages/dashboard/admin/dashboard";
 import RoleChangeRequest from "./pages/dashboard/admin/role-change-request";
 import { Dashboard } from "./pages/dashboard/dashboard-router";
-import PDFViewer from "./pages/dashboard/fund-manager/applicant-info";
+import { ApplicantDetails } from "./pages/dashboard/fund-manager/applicant-details";
 import CreateFundingOpportunity from "./pages/dashboard/fund-manager/create-funding";
 import { FundManagerDashboard } from "./pages/dashboard/fund-manager/dashboard";
 import ErrorPage from "./pages/error-page";
@@ -60,7 +60,7 @@ function App() {
               path="/create-funding"
               element={<CreateFundingOpportunity />}
             />
-            <Route path="/applicant-info" element={<PDFViewer />} />
+            <Route path="/applicant-details" element={<ApplicantDetails/>} />
           </Route>
         )}
         {!isSignedIn && (
