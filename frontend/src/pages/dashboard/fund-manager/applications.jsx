@@ -8,13 +8,10 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@mui/material';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  getQuery,
-  createMutation as updateManyMutation,
-} from "../../../dataprovider";
+} from "@mui/material";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { getQuery } from "../../../dataprovider";
 
 // Change data to match the table headers
 function transformData(data) {
@@ -35,48 +32,12 @@ function transformData(data) {
 
 export default function ManageApplications({ fundId }) {
   const { data: result, isLoading, isError } = getQuery("manager/applications");
-  const { mutate: updateIds } = updateManyMutation({
-    resource: "manager/update-applications",
-    invalidateKeys: ["manager/applications"],
-  });
-  const {
-    data: amount,
-    isLoading: amountIsLoading,
-    isError: amountIsError,
-  } = getQuery("manager/fund-ad-amount");
-
-  const {
-    mutate: updateBalance,
-    data: returned_data,
-    isLoading: updateBalanceLoading,
-  } = updateManyMutation({
-    resource: "manager/deduct-balance",
-  });
-
-  const handleStatusChange = (selected, status) => {
-    const newStatus = status === "approve" ? "approved" : "rejected";
-    const target = amount.find((item) => item.id === fundId);
-    const target_amount = target.amount * selected.length;
-    updateBalance({
-      amount: target_amount,
-    });
-
-    if (returned_data?.message === "Balance deducted successfully") {
-      updateIds({ ids: selected, newStatus });
-      console.log("good!");
-    } else {
-      alert("Insufficient balance");
-    }
-  };
-
   const nagivate = useNavigate();
 
   const handleViewDocument = (selectedId) => {
-    
-    const documents = result.find((item) => item.id == selectedId).attachments;
-    console.log("Selected", selectedId, "Documents", documents )
-    nagivate("/applicant-details",{state: {pdfUrl: documents}} )
-  }
+    const details = result.find((item) => item.id == selectedId);
+    nagivate("/applicant-details", { state: { application: details } });
+  };
   let data = result ?? [];
   data = transformData(data);
 
@@ -92,48 +53,32 @@ export default function ManageApplications({ fundId }) {
       {isError && <Alert severity="error">Error loading applications</Alert>}
       {!isLoading && !isError && (
         <Card>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Status</TableCell>
-              <TableCell>Full Name</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item["Status"]}</TableCell>
-                <TableCell>{item["Full Name"]}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleStatusChange([item.id], "approve")}
-                  >
-                    Approve
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => handleStatusChange([item.id], "reject")}
-                  >
-                    Reject
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => handleViewDocument(item.id)}
-                    >
-                      View Document
-                    </Button>
-
-                    
-                </TableCell>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Status</TableCell>
+                <TableCell>Full Name</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {data.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item["Status"]}</TableCell>
+                  <TableCell>{item["Full Name"]}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleViewDocument(item.id)}
+                    >
+                      View Application
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </Card>
       )}
     </>
