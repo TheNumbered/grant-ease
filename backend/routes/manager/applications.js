@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-router.get("/applications",  (req, res, next) => {
+router.get("/applications", (req, res, next) => {
   const id = req.auth.userId;
   req.db.query(
     `
@@ -21,21 +21,20 @@ router.get("/applications",  (req, res, next) => {
 });
 
 router.post("/update-applications", (req, res, next) => {
-    const { ids, newStatus } = req.body;
+  const { ids, newStatus } = req.body;
 
-    if (!ids || !newStatus) {
-      return res.status(400).json({ message: "Missing required parameters" });
-    }
-
-    req.db.query(
-      "UPDATE funding_applications SET status = ? WHERE id IN (?)",
-      [newStatus, ids],
-      (err, result) => {
-        if(err) return next(err);
-        res.json({ message: "Status updated successfully" });
-      }
-    );
+  if (!ids || !newStatus) {
+    return res.status(400).json({ message: "Missing required parameters" });
   }
-);
+
+  req.db.query(
+    "UPDATE funding_applications SET status = ? WHERE id IN (?)",
+    [newStatus, ids],
+    (err, result) => {
+      if (err) return next(err);
+      res.json({ message: "Status updated successfully" });
+    }
+  );
+});
 
 export default router;
