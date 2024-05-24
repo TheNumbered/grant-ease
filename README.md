@@ -35,7 +35,7 @@ Make sure you have the following software installed on your machine:
 
 4. Install the dependencies for each module.
     ```shell
-    npm run install
+    pnpm  install
     ```
 
 ## Usage
