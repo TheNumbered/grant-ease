@@ -35,36 +35,36 @@ Make sure you have the following software installed on your machine:
 
 4. Install the dependencies for each module.
     ```shell
-    npm run install-each
+    npm run install
     ```
 
 ## Usage
 
 - To start the backend server, run the following command:
     ```shell
-    npm run backend
+    pnpm backend
     ```
 
 - To start the frontend development server, run the following command:
     ```shell
-    npm run frontend
+    pnpm frontend
     ```
 
 - To build the frontend for production, run the following command:
     ```shell
-    npm run build
+    pnpm build
     ```
 
 ## Testing
 
 - To run tests, use the following command:
     ```shell
-    npm run test
+    pnpm test
     ```
 
 - To generate test coverage report, use the following command:
     ```shell
-    npm run coverage
+    pnpm coverage
     ```
 
 *Note: Some files are hidden by default. To show these files, navigate to `.vscode/settings.json` and comment out the file you want to show.*
