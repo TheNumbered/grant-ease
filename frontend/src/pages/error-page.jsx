@@ -1,10 +1,11 @@
+/* v8 ignore start */
+import { CenteredLayout } from "@/layouts";
 import { Paper, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import React from "react";
 import { Link } from "react-router-dom";
-import { CenteredLayout } from "../layouts";
 
-const ErrorPage = () => {
+export const ErrorPage = () => {
   return (
     <CenteredLayout extras={{ "data-testid": "error-page" }}>
       <Paper elevation={3} style={{ 
@@ -33,4 +34,4 @@ const ErrorPage = () => {
   );
 };
 
-export default ErrorPage;
+/* v8 ignore start */

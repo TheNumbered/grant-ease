@@ -1,3 +1,4 @@
+import { useGlobal } from "@/layouts/global-provider";
 import {
   Box,
   Button,
@@ -9,13 +10,11 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  createMutation as updateManyMutation
-} from "../../../dataprovider";
-import { useGlobal } from "../../../layouts/global-provider";
+import { updateMutation } from "../../../../dataprovider";
 
 export const ApplicantDetails = () => {
   const location = useLocation();
+  const applicationId = location.state.application.id;
   const attachmentData = location.state.application.attachments;
   const additionalFields = JSON.parse(location.state.application.additional_fields) ?? [];
   const { showAlert } = useGlobal();
@@ -37,39 +36,31 @@ export const ApplicantDetails = () => {
     return nameParts.slice(0, nameParts.length - 1).join("-");
   };
 
-  const { mutate: updateIds, data: returned_message } = updateManyMutation({
-    resource: "manager/update-applications",
-    invalidateKeys: ["manager/applications"],
-  });
+  const {mutate: approveApplication, data: approve_result } = updateMutation({
+    resource : "manager/approve-application",
+    invalidateKeys : ["manager/applications", "manager/funding-opportunities"]
+  })
 
-  const { mutate: updateBalance, data: returned_data } = updateManyMutation({
-    resource: "manager/deduct-balance",
-    invalidateKeys: ["manager/balance"],
-  });
+  const {mutate: rejectApplication, data: reject_result } = updateMutation({
+    resource : "manager/reject-application",
+    invalidateKeys : ["manager/applications", "manager/funding-opportunities"]
+  })
 
   const handleStatusChange = (status) => {
-    const applicationID = location.state.application.id;
-    const fundId = location.state.application.fund_id;
-
-    const newStatus = status === "approve" ? "approved" : "rejected";
-    if (newStatus === "approved") {
-      const target = amount.find((item) => item.id === fundId);
-      const target_amount = target.amount;
-      updateBalance({
-        amount: target_amount,
-      });
-    }
-
-    if (returned_data?.message === "Balance deducted successfully") {
-      updateIds({ ids: [applicationID], newStatus });
+    if (status === "approved") {
+      approveApplication({id: applicationId, newStatus: {status}})
     } else {
-      showAlert("Insufficient balance");
+      rejectApplication({id: applicationId, newStatus: {status}})
     }
-
-    if (returned_message?.message === "Status updated successfully") {
-      showAlert("Status updated successfully");
+  
+    if (approve_result?.message || reject_result?.message) {
+      showAlert(approve_result?.message || reject_result?.message)
+    }
+    if(approve_result?.error || reject_result?.error){
+      showAlert(approve_result?.error || reject_result?.error)
     }
   };
+
   const navigate = useNavigate();
 
   return (
@@ -125,7 +116,7 @@ export const ApplicantDetails = () => {
           <Button
             variant="contained"
             color="error"
-            onClick={() => handleStatusChange("reject")}
+            onClick={() => handleStatusChange("rejected")}
             style={{ marginRight: "2rem" }}
           >
             Reject Application
@@ -133,7 +124,7 @@ export const ApplicantDetails = () => {
           <Button
             variant="contained"
             color="success"
-            onClick={() => handleStatusChange("approve")}
+            onClick={() => handleStatusChange("approved")}
           >
             Approve Application
           </Button>

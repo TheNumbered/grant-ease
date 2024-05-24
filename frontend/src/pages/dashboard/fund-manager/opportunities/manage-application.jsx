@@ -9,9 +9,9 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { getByIdQuery } from "dataprovider";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { getByIdQuery } from "../../../dataprovider";
 
 // Change data to match the table headers
 function transformData(data) {
@@ -30,7 +30,7 @@ function transformData(data) {
   });
 }
 
-export default function ManageApplications({ fundId }) {
+export function ManageApplication({ fundId }) {
   const { data: result, isLoading, isError } = getByIdQuery("manager/applications", fundId)
   const nagivate = useNavigate();
 

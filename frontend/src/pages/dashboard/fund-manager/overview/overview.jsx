@@ -10,13 +10,14 @@ import {
   TextField
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { createMutation, getQuery } from "dataprovider";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createMutation, getQuery } from "../../../dataprovider";
 import { ApprovedApplicantsBar } from "./charts/approved-applicants-bar";
+import { BalanceLiquidChart } from "./charts/balance-liquid-chart";
 import { FundAmountsPie } from "./charts/fund-amount-pie";
 
-export default function FundManagerOverviewCards() {
+export function OverviewPage() {
   const theme = useTheme();
   const navigate = useNavigate();
   const [dialogInfo, setDialogInfo] = useState({ open: false , type: "", amount: 0});
@@ -32,7 +33,7 @@ export default function FundManagerOverviewCards() {
   });
 
   const handleAmountChange = (event) => {
-    setAmount(event.target.value);
+    setDialogInfo({ ...dialogInfo, amount: event.target.value });
   };
 
   const handleCloseDialog = () => {
@@ -40,6 +41,7 @@ export default function FundManagerOverviewCards() {
   };
 
   const submitChanges = () => {
+    console.log(dialogInfo.type, dialogInfo.amount);
     if (dialogInfo.type === "add") {
       addBalance({ amount: dialogInfo.amount });
     } else {
@@ -194,7 +196,7 @@ export default function FundManagerOverviewCards() {
           <><ApprovedApplicantsBar/></>
         </section>
         <section className="single-analytic-card card">
-          <></>
+          <><BalanceLiquidChart/></>
         </section>
     </article>
     </>

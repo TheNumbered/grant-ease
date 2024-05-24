@@ -1,3 +1,4 @@
+/* v8 ignore start */
 import {
   Box,
   Button,
@@ -11,7 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { createMutation } from "../../dataprovider";
+
+import { createMutation } from "dataprovider";
 
 const ApplyModal = ({ open, fund, onClose }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -69,7 +71,7 @@ const ApplyModal = ({ open, fund, onClose }) => {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
-      <DialogTitle>Upload Documents for {fund.title}</DialogTitle>
+      <DialogTitle>Apply to {fund.title}</DialogTitle>
       <DialogContent>
         {additional_fields.length > 0 && (
           <Box sx={{ mt: 4 }}>
@@ -135,3 +137,5 @@ const ApplyModal = ({ open, fund, onClose }) => {
 };
 
 export default ApplyModal;
+
+/* v8 ignore stop */

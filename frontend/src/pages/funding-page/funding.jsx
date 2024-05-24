@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
+import { getQuery } from "dataprovider";
 import { useEffect, useState } from "react";
-import { getQuery } from "../../dataprovider";
 import { LoadingPage } from "../loading-page";
 import ApplyModal from "./apply-modal";
 
@@ -66,6 +66,7 @@ const FundingPage = () => {
                   src={import.meta.env.VITE_API_URL + "/" + fund.image}
                   alt="fund-image"
                   height={200}
+                  onError={(e) => { e.target.style.display = 'none'; }}
                 />
               )}
               <section className="card-header">
@@ -80,7 +81,13 @@ const FundingPage = () => {
                 <p>{fund.description}</p>
               </section>
               <section className="card-footer">
-                {fund.application_status === "pending" ? (
+
+                { fund.is_manager === 1 ? (
+                  <button className="btn-disabled" disabled>
+                    You are the manager
+                  </button>
+                ) :
+                fund.application_status === "pending" ? (
                   <button className="btn-disabled" disabled>
                     Application Pending
                   </button>

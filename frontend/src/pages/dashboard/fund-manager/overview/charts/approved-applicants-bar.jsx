@@ -1,6 +1,6 @@
 import { Column } from '@ant-design/plots';
+import { getQuery } from 'dataprovider';
 import * as React from 'react';
-import { getQuery } from '../../../../dataprovider';
 
 export function ApprovedApplicantsBar() {
   const { data, isLoading, isError } = getQuery('manager/approved-applicants');
@@ -34,6 +34,9 @@ export function ApprovedApplicantsBar() {
         autoRotate: true,
         autoHide: true,
       },
+    },
+    style: {
+      fill: '#3da08e',
     },
     forceFit: true,
     height: 400,

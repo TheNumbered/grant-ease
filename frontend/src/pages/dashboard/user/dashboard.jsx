@@ -1,7 +1,6 @@
-import { Grid, Typography } from "@mui/material";
-import { FundingUserAppliedToTable } from "./applied-funding-table";
-import "./user-dashboard-styles.css";
-
+import { Grid } from "@mui/material";
+import { ApplyForManager } from "./apply-for-manager";
+import { UserApplications } from "./user-applications";
 
 export const UserDashboard = () => {
   return (
@@ -13,20 +12,10 @@ export const UserDashboard = () => {
         style={{ marginTop: "1rem" }}
       >
         <Grid item xs={12} sm={12} md={6} lg={6}>
-          <FundingUserAppliedToTable />
+          <UserApplications />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6}>
-          <article className="card text-center notifications-area">
-            <h2></h2>
-            <Typography
-              variant="h5"
-              component="div"
-              align="center"
-              gutterBottom
-            >
-              
-            </Typography>
-          </article>
+          <ApplyForManager />
         </Grid>
       </Grid>
     </>

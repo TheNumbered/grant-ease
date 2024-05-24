@@ -1,3 +1,4 @@
+import { deleteMutation, getQuery } from "@/dataprovider";
 import {
   Box,
   Button,
@@ -9,14 +10,12 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React, { useState } from "react";
-import { getQuery } from "../../../dataprovider";
-import ErrorPage from "../../error-page";
-import { LoadingPage } from "../../loading-page";
-import ManageApplications from "./applications";
+import { useState } from "react";
+import { ManageApplication } from "./manage-application";
 
-export const ManagerFundingAdvertisements = () => {
+export const AdvertsPage = () => {
   const { data, isError, isLoading } = getQuery("manager/funding-opportunities");
+  const { mutate: deleteOpportunity } = deleteMutation({ resource: "manager/funding-opportunities" });
   const [selectedOpportunity, setSelectedOpportunity] = useState(null);
   const [paperOpen, setPaperOpen] = useState(false);
 
@@ -30,13 +29,12 @@ export const ManagerFundingAdvertisements = () => {
   };
 
   if (isLoading) {
-    return <LoadingPage />;
+    return <div>Loading ...</div>
   }
 
   if (isError) {
-    return <ErrorPage />;
+    return <div>Error ...</div>
   }
-
   return (
     <div style={{ position: "relative", textAlign: "center" }}>
       <h2>My Funding Advertisements</h2>
@@ -58,14 +56,23 @@ export const ManagerFundingAdvertisements = () => {
                   }}
                 >
                   {opportunity.title}
-                  {opportunity.numApplicants > 0 && (
+                  {opportunity.numApplicants > 0 ? (
                     <Button
                     variant="contained"
                     onClick={() => handleButtonClick(opportunity)}
                   >
                     Applicants
                   </Button>
+                  ): (
+                    <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => deleteOpportunity(opportunity.id)}
+                  >
+                    Delete
+                  </Button>
                   )}
+
                 </TableCell>
               </TableRow>
             ))}
@@ -89,7 +96,7 @@ export const ManagerFundingAdvertisements = () => {
       )}
 
       {/* Display applicants modal */}
-      {paperOpen && (
+      {paperOpen && selectedOpportunity && (
         <Box
           style={{
             position: "fixed",
@@ -101,7 +108,7 @@ export const ManagerFundingAdvertisements = () => {
             backgroundColor: "rgb(214, 189, 156)",
           }}
         >
-          <ManageApplications fundId={selectedOpportunity.id} />
+          <ManageApplication fundId={selectedOpportunity.id} />
           <Button onClick={handleClosePaper}>Close</Button>
         </Box>
       )}

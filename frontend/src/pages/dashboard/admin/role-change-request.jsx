@@ -1,5 +1,5 @@
-import { StatusChangeTable } from "../../../components/status-change-table";
-import { getQuery, createMutation as updateManyMutation } from "../../../dataprovider";
+import { StatusChangeTable } from "components/status-change-table";
+import { getQuery, createMutation as updateManyMutation } from "dataprovider";
 
 // Change data to match the table headers
 function transformData(data) {

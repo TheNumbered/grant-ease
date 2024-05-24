@@ -1,3 +1,37 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+
+header {
+    display: flex;
+    justify-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.navbar {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+main {
+    background-color: #fffbef;
+    min-height: 100vh;
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total height and width */
+}
+
+main .banner-area h2 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+
+
 .HeroSection form {
     border: 2px solid #095f59;
     display: flex;
@@ -140,17 +174,6 @@
     }
 }
 
-header {
-    display: flex;
-    justify-items: center;
-    justify-content: space-between;
-}
-
-header h1 {
-    font-size: 2rem;
-    font-weight: bold;
-}
-
 .card-title {
     margin-top: 0.5rem;
     font-weight: bold;
@@ -180,19 +203,6 @@ header nav {
     font-weight: bold;
   }
 
-.navbar {
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-main {
-    background: #fffbef;
-}
-
-main .banner-area h2 {
-    margin: 0;
-    font-size: 2rem;
-}
 
 p, h3 {
     margin: 0;

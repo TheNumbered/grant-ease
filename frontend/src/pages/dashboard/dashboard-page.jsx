@@ -1,13 +1,12 @@
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import { getQuery } from "dataprovider";
 import React from "react";
-import { getQuery } from "../../dataprovider";
 import { LoadingPage } from "../loading-page";
 import ManageUsers from "./admin/manage-users";
 import RoleChangeRequest from "./admin/role-change-request";
-import { ManagerFundingAdvertisements } from "./fund-manager/get-manager-funding-advertisements";
-import FundManagerOverviewCards from "./fund-manager/overview";
+import { AdvertsPage, OverviewPage } from "./fund-manager";
 import { UserDashboard } from "./user/dashboard";
 
 function CustomTabPanel(props) {
@@ -34,7 +33,7 @@ function CustomTabPanel(props) {
   }
 
 
-export const Dashboard = () => {
+export const DashboardPage = () => {
     const { data, isError, isLoading } = getQuery('user/meta');
     const [value, setValue] = React.useState(0);
     const handleChange = (event, newValue) => {
@@ -74,10 +73,10 @@ export const Dashboard = () => {
                             </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
-                            <FundManagerOverviewCards />
+                            <OverviewPage/>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={1}>
-                            <ManagerFundingAdvertisements />
+                            <AdvertsPage/>
                         </CustomTabPanel>
                         </Box>
 
@@ -104,10 +103,10 @@ export const Dashboard = () => {
                             <RoleChangeRequest />
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={2}>
-                            <FundManagerOverviewCards />
+                            <OverviewPage />
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={3}>
-                            <ManagerFundingAdvertisements />
+                            <AdvertsPage/>
                         </CustomTabPanel>
                         </Box>
                     );

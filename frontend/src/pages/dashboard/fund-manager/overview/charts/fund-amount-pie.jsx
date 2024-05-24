@@ -1,6 +1,6 @@
 import { Pie } from '@ant-design/plots';
+import { getQuery } from 'dataprovider';
 import * as React from 'react';
-import { getQuery } from '../../../../dataprovider';
 
 const convertData = (data) => {
   return data.map((item) => {

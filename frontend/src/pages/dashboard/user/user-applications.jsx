@@ -1,3 +1,4 @@
+import { CenteredLayout } from '@/layouts';
 import { CircularProgress } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,16 +8,11 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination'; // Import TablePagination
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import { getQuery } from 'dataprovider';
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { getQuery } from '../../../dataprovider';
-import { CenteredLayout } from '../../../layouts';
 
-
-// Define your list of applications
-// const applicationsList = [];
-
-export const FundingUserAppliedToTable = () => {
+export const UserApplications = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const { data, isError, isLoading } = getQuery('user/applications');
@@ -26,7 +22,6 @@ export const FundingUserAppliedToTable = () => {
   if (isError) {
     Navigate("/error");
   };
-  // const {user} = useClerk();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -35,6 +30,10 @@ export const FundingUserAppliedToTable = () => {
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const toSentenceCase = str => {
+    return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   };
 
   return (
@@ -63,7 +62,7 @@ export const FundingUserAppliedToTable = () => {
                     ).map(application => (
                       <TableRow key={application.applicant_id}>
                         <TableCell>{application.title}</TableCell>
-                        <TableCell>{application.status}</TableCell>
+                        <TableCell>{toSentenceCase(application.status)}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

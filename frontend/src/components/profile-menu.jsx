@@ -4,21 +4,15 @@ import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { UserApplications } from "../pages/user-applications/applications";
 
 export default function ProfileMenu({ user, onClose, onSignOut }) {
-  const [applicationsOpen, setApplicationsOpen] = useState(false);
-
-  const handleApplicationsClose = () => {
-    setApplicationsOpen(false);
-  };
-
   const navigate = useNavigate();
-  const handleProfile = () => {
-    navigate("/profile");
-  };
+  const handleClick = (path) => {
+    navigate(path);
+    onClose();
+  }
 
   return (
     <div>
@@ -28,7 +22,7 @@ export default function ProfileMenu({ user, onClose, onSignOut }) {
         open={Boolean(user)}
         onClose={onClose}
       >
-        <MenuItem onClick={handleProfile}>
+        <MenuItem onClick={() => handleClick("/profile")}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             {user && user.imageUrl ? (
               <Avatar src={user.imageUrl} alt="User Avatar" sx={{ mr: 1 }} />
@@ -55,42 +49,17 @@ export default function ProfileMenu({ user, onClose, onSignOut }) {
             </div>
           </Box>
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            navigate("/home");
-          }}
-        >
+        <MenuItem onClick={() => handleClick("/")}>
           Home
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            navigate("/user-applications");
-          }}
-        >
+        <MenuItem onClick={() => handleClick("/applications")}>
           Applications
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            navigate("/dashboard");
-          }}
-        >
+        <MenuItem onClick={() => handleClick("/dashboard")}>
           Dashboard
         </MenuItem>
         <MenuItem onClick={onSignOut}>Sign Out</MenuItem>
       </Menu>
-      {/* Wrap the Applications component inside a parent element */}
-      <div>
-        <Menu
-          id="applications-menu"
-          anchorEl={user ? user.anchorEl : null}
-          open={applicationsOpen}
-          onClose={handleApplicationsClose}
-        >
-          {applicationsOpen && (
-            <UserApplications onClose={handleApplicationsClose} />
-          )}
-        </Menu>
-      </div>
     </div>
   );
 }

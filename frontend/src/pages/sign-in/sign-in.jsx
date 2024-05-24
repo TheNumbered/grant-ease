@@ -1,5 +1,5 @@
+import { CenteredLayout } from "@/layouts";
 import { SignIn } from "@clerk/clerk-react";
-import { CenteredLayout } from "../../layouts";
 
 export const SignInPage = () => {
     return (

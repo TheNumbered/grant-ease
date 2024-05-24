@@ -1,10 +1,10 @@
+import { useGlobal } from "@/layouts";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Button, Divider, Grid, IconButton, InputAdornment, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
+import { createMutation } from "dataprovider";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createMutation } from "../../../dataprovider";
-import { useGlobal } from "../../../layouts";
 
 const CreateFundingOpportunity = () => {
   const { mutate: createFundingOpportunity } = createMutation({

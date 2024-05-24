@@ -7,12 +7,13 @@ router.get("/funding-opportunities", ClerkExpressRequireAuth(), (req, res) => {
 
   req.db.query(
     `SELECT fo.*, 
-        (SELECT fa.status 
-         FROM funding_applications fa 
-         WHERE fa.fund_id = fo.id AND fa.applicant_id = ?) AS application_status
-        FROM funding_opportunities fo 
-        WHERE fo.deadline >= CURDATE()
-        AND fo.manager_id != ?;
+    (SELECT fa.status 
+     FROM funding_applications fa 
+     WHERE fa.fund_id = fo.id AND fa.applicant_id = ?) AS application_status,
+    (fo.manager_id = ?) AS is_manager
+    FROM funding_opportunities fo 
+    WHERE fo.deadline >= CURDATE();
+
  `,
     [applicant_id, applicant_id],
     (err, result) => {

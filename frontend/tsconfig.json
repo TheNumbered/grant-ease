@@ -21,6 +21,12 @@
     "noFallthroughCasesInSwitch": true,
 
     "types": ["@testing-library/jest-dom", "vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "components/*": ["src/components/*"],
+      "dataprovider/*": ["src/dataprovider/*"],
+    },
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

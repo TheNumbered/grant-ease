@@ -1,6 +1,6 @@
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { getQuery, updateMutation } from "dataprovider";
 import { useState } from 'react';
-import { getQuery, updateMutation } from "../../../dataprovider";
 
 export default function ManageUsers() {
   const { data, isLoading, isError } = getQuery("admin/users");

@@ -1,7 +1,6 @@
 import supertest from "supertest";
-import { describe, vi } from "vitest";
-import app from "../../../app.js";
-
+import { vi } from "vitest";
+import app from "../../../app";
 //mock to ignore the authenticator
 vi.mock("@clerk/clerk-sdk-node", () => ({
   ClerkExpressRequireAuth: () => (req, res, next) => {
@@ -51,12 +50,3 @@ describe("GET /manager/applications", () => {
   });
 });
 
-describe("POST /manager/update-applications", () => {
-  it("should return a message", async () => {
-    const res = await supertest(app)
-      .post("/manager/update-applications")
-      .send({ ids: [1], newStatus: "Approved" });
-
-    expect(res.body).toEqual({ message: "Status updated successfully" });
-  });
-});

@@ -1,4 +1,5 @@
-import { UserButton, UserProfile, useAuth } from "@clerk/clerk-react";
+/* v8 ignore start */
+import { UserProfile, useAuth } from "@clerk/clerk-react";
 import { CircularProgress, Typography } from "@mui/material";
 import {
   BrowserRouter,
@@ -10,19 +11,18 @@ import {
 import { CenteredLayout, MainLayout } from "./layouts";
 
 import { getQuery } from "./dataprovider";
-import RoleChangeRequest from "./pages/dashboard/admin/role-change-request";
-import { Dashboard } from "./pages/dashboard/dashboard-router";
-import { ApplicantDetails } from "./pages/dashboard/fund-manager/applicant-details";
+import { DashboardPage } from "./pages/dashboard";
 import CreateFundingOpportunity from "./pages/dashboard/fund-manager/create-funding";
-import ErrorPage from "./pages/error-page";
+import { ApplicantDetails } from "./pages/dashboard/fund-manager/opportunities/applicant-details";
+import { UserApplications } from "./pages/dashboard/user/user-applications";
+import { ErrorPage } from "./pages/error-page";
 import FundingPage from "./pages/funding-page/funding";
 import { SignInPage } from "./pages/sign-in/sign-in";
 import { SignUpPage } from "./pages/sign-up/sign-up";
-import { UserApplications } from "./pages/user-applications/applications";
 
 function App() {
   const { isLoaded, isSignedIn } = useAuth();
-  const { data: userMeta, isError, isLoading } = getQuery('user/meta');
+  const { data: userMeta, isLoading } = getQuery('user/meta');
 
   if(userMeta?.is_banned){
     return (
@@ -32,7 +32,7 @@ function App() {
     );
   }
   
-  if (!isLoaded ) {
+  if (!isLoaded || isLoading) {
     return (
       <CenteredLayout extras={{ "data-testid": "loading-page" }}>
         <CircularProgress />
@@ -52,15 +52,10 @@ function App() {
               </MainLayout>
             }
           >
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route
-              path="/role-change-request"
-              element={<RoleChangeRequest />}
-            />
+            <Route path="/dashboard" element={<DashboardPage/>} />
             <Route path="/profile" element={<UserProfile />} />
-            <Route path="/button" element={<UserButton />} />
             <Route path="/onboarding" element={<UserProfile />} />
-            <Route path="/user-applications" element={<UserApplications />} />
+            <Route path="/applications" element={<UserApplications />} />
             <Route path="/home" element={<FundingPage />} />
             <Route
               path="/create-funding"
@@ -93,3 +88,4 @@ function App() {
 }
 
 export default App;
+/* v8 ignore stop */

@@ -10,7 +10,7 @@ const mockUserData = [
 
 
 // Mocking the data fetching function
-vi.mock('../../../dataprovider', () => ({
+vi.mock('dataprovider', () => ({
   getQuery: vi.fn()
             .mockImplementationOnce(() => ({ data: undefined, isLoading: true, isError: false }))
             .mockImplementationOnce(() => ({ data: undefined, isLoading: false, isError: true }))
