@@ -38,6 +38,26 @@ Make sure you have the following software installed on your machine:
     pnpm  install
     ```
 
+## Configure App
+
+To configure the app, you need to set the following environment variables:
+
+### Frontend Environment Variables
+
+- `VITE_API_URL`: The API URL for the backend server.
+- `VITE_CLERK_PUBLISHABLE_KEY`: The publishable key for Clerk authentication.
+
+### Backend Environment Variables
+
+- `CLERK_SECRET_KEY`: The secret key for Clerk authentication.
+- `MYSQL_DATABASE`: The name of the MySQL database.
+- `MYSQL_HOST`: The host of the MySQL database.
+- `MYSQL_PASSWORD`: The password for the MySQL database.
+- `MYSQL_PORT`: The port of the MySQL database.
+- `MYSQL_USER`: The username for the MySQL database.
+
+Make sure to set these environment variables before running the app.
+
 ## Usage
 
 - To start the backend server, run the following command:
@@ -66,5 +86,6 @@ Make sure you have the following software installed on your machine:
     ```shell
     pnpm coverage
     ```
+*For database migrations read the README.MD in backend/db/README.MD
 
 *Note: Some files are hidden by default. To show these files, navigate to `.vscode/settings.json` and comment out the file you want to show.*
