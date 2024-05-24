@@ -2,16 +2,10 @@ import { Grid, Typography } from "@mui/material";
 import { FundingUserAppliedToTable } from "./applied-funding-table";
 import "./user-dashboard-styles.css";
 
+
 export const UserDashboard = () => {
   return (
     <>
-      <section
-        className="page-heading-section"
-        style={{ marginBottom: "2rem" }}
-      >
-        <h1 style={{ margin: "0" }}>Dashboard</h1>
-        <small>Find, Track and Review All Your Applications Here!</small>
-      </section>
       <Grid
         component={"section"}
         container
@@ -30,7 +24,7 @@ export const UserDashboard = () => {
               align="center"
               gutterBottom
             >
-              Notifications
+              
             </Typography>
           </article>
         </Grid>

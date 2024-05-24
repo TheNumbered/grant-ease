@@ -1,13 +1,12 @@
-// import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 import express from "express";
 const router = express.Router();
 
 // Route to get applications from the database for the current user by id
 router.get("/notifications",
-    // ClerkExpressRequireAuth(), 
+    ClerkExpressRequireAuth(), 
     (req, res) => {
-    // const id = req.auth.userId;
-    const id = "user2";
+    const id = req.auth.userId;
     
     // Perform the SELECT query to get notifications
     req.db.query("SELECT n.*, fo.title FROM notifications n LEFT JOIN funding_opportunities fo ON n.fund_id = fo.id WHERE n.user_id = ? ORDER BY time_posted DESC", [id], (err, notifications) => {
@@ -40,8 +39,8 @@ router.get("/notifications",
 });
 
 
-router.get('/UnseenNotificationsCount', (req, res) => {
-    const id = "user2";
+router.get('/UnseenNotificationsCount', ClerkExpressRequireAuth() ,(req, res) => {
+    const id = req.auth.userId;
     req.db.query("SELECT COUNT(*) AS unseen_count FROM notifications WHERE user_id = ? AND seen = 0", [id], (err, result) => {
         if (err) {
             console.error("Error querying database for unseen count:", err);

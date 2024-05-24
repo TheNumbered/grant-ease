@@ -16,7 +16,7 @@ import { LoadingPage } from "../../loading-page";
 import ManageApplications from "./applications";
 
 export const ManagerFundingAdvertisements = () => {
-  const { data, isError, isLoading } = getQuery("manager/get-funding-opportunities");
+  const { data, isError, isLoading } = getQuery("manager/funding-opportunities");
   const [selectedOpportunity, setSelectedOpportunity] = useState(null);
   const [paperOpen, setPaperOpen] = useState(false);
 
@@ -58,12 +58,14 @@ export const ManagerFundingAdvertisements = () => {
                   }}
                 >
                   {opportunity.title}
-                  <Button
+                  {opportunity.numApplicants > 0 && (
+                    <Button
                     variant="contained"
                     onClick={() => handleButtonClick(opportunity)}
                   >
                     Applicants
                   </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
@@ -80,7 +82,7 @@ export const ManagerFundingAdvertisements = () => {
             width: "100%",
             height: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent black
-            zIndex: "9998", // Ensure it's below the paper modal
+            zIndex: "99", // Ensure it's below the paper modal
             pointerEvents: "none", // Allow pointer events to pass through
           }}
         ></div>
@@ -95,7 +97,7 @@ export const ManagerFundingAdvertisements = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             padding: "20px",
-            zIndex: "9999",
+            zIndex: "100",
             backgroundColor: "rgb(214, 189, 156)",
           }}
         >

@@ -3,7 +3,8 @@ const router = express.Router();
 
 
 router.get("/users",  (req, res, next) => {
-    req.db.query("SELECT * FROM user;", (err, result) => {
+    const id = req.auth.userId;
+    req.db.query("SELECT * FROM user WHERE id != ?;", [id], (err, result) => {
         if (err) return next(err);
         res.json(result);
     });
@@ -30,13 +31,6 @@ router.post("/update-roles",   (req, res, next) => {
 
     req.db.query("UPDATE user SET role = ? WHERE id IN (?)", [newRole, ids], (err, result) => {
         if (err) return next(err);
-        if(newRole === 'fund_manager'){
-            ids.forEach(id => {
-                req.db.query("INSERT INTO fund_manager_info (manager_id) VALUES (?)", [id], (err, result) => {
-                    if (err) return next(err);
-                });
-            });
-        }
         res.json({ message: "Roles updated successfully" });
     });
 });

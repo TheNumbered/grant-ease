@@ -1,20 +1,18 @@
 import express from "express";
 const router = express.Router();
 
-// Route to get funding balance from the database by the fund manager id
+// router that gets the balance of the fund manager account
 router.get("/balance", (req, res) => {
   const id = req.auth.userId;
-  //const id = "1";
   req.db.query(
-    "SELECT balance FROM fund_manager_info WHERE manager_id = ?",
+    "SELECT balance FROM user WHERE id = ?",
     [id],
-    (err, result) => {
+    (err, rows) => {
       if (err) {
-        console.error("Error querying database:", err);
         res.status(500).json({ error: "Internal Server Error" });
         return;
       }
-      res.json(result);
+      res.json(rows[0]);
     }
   );
 });
@@ -22,19 +20,17 @@ router.get("/balance", (req, res) => {
 // router that adds balance to the fund manager account
 router.post("/add-balance", (req, res) => {
   const id = req.auth.userId;
-  //const id = "1";
   const { amount } = req.body;
-  console.log(req.body);
+
   if (!amount) {
     res.status(400).json({ error: "Amount is required" });
     return;
   }
   req.db.query(
-    "UPDATE fund_manager_info SET balance = balance + ? WHERE manager_id = ?",
+    "UPDATE user SET balance = balance + ? WHERE  id = ?",
     [amount, id],
     (err, result) => {
       if (err) {
-        console.error("Error querying database:", err);
         res.status(500).json({ error: "Internal Server Error" });
         return;
       }
@@ -45,8 +41,7 @@ router.post("/add-balance", (req, res) => {
 
 // router that deducts balance from the fund manager account
 router.post("/deduct-balance", (req, res) => {
-  const id = req.auth.userId; // Assuming userId is obtained from authentication
-  //const id = "1"; // For testing, replace "1" with the actual user ID obtained from authentication
+  const id = req.auth.userId; 
   const { amount } = req.body;
 
   if (!amount) {
@@ -56,17 +51,11 @@ router.post("/deduct-balance", (req, res) => {
 
   // Check if there is sufficient balance
   req.db.query(
-    "SELECT balance FROM fund_manager_info WHERE manager_id = ?",
+    "SELECT balance FROM user WHERE id = ?",
     [id],
     (err, rows) => {
       if (err) {
-        console.error("Error querying database:", err);
         res.status(500).json({ error: "Internal Server Error" });
-        return;
-      }
-
-      if (rows.length === 0) {
-        res.status(404).json({ error: "User not found" });
         return;
       }
 
@@ -79,7 +68,7 @@ router.post("/deduct-balance", (req, res) => {
 
       // Deduct the balance
       req.db.query(
-        "UPDATE fund_manager_info SET balance = balance - ? WHERE manager_id = ?",
+        "UPDATE user SET balance = balance - ? WHERE id = ?",
         [amount, id],
         (err, result) => {
           if (err) {
@@ -94,22 +83,5 @@ router.post("/deduct-balance", (req, res) => {
   );
 });
 
-// router that gets the amount
-router.get("/get-amount", (req, res) => {
-  const id = req.auth.userId;
-  //const id = "1";
-  req.db.query(
-    "SELECT amount FROM funding_opportunities WHERE id = ?",
-    [id],
-    (err, result) => {
-      if (err) {
-        console.error("Error querying database:", err);
-        res.status(500).json({ error: "Internal Server Error" });
-        return;
-      }
-      res.json(result);
-    }
-  );
-});
 
 export default router;

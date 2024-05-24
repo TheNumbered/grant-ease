@@ -6,71 +6,67 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
   Stack,
-  TextField,
+  TextField
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createMutation, getQuery } from "../../../dataprovider";
-import { BarAnimation } from "./bar-graph";
-import { Basic } from "./line-graph";
-import { PieArcLabel } from "./pie-chart";
+import { ApprovedApplicantsBar } from "./charts/approved-applicants-bar";
+import { FundAmountsPie } from "./charts/fund-amount-pie";
 
 export default function FundManagerOverviewCards() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [openDialog, setOpenDialog] = useState(false);
-  const [amount, setAmount] = useState(0);
+  const [dialogInfo, setDialogInfo] = useState({ open: false , type: "", amount: 0});
 
-  const { mutate: updateBalance } = createMutation({
+  const { mutate: addBalance } = createMutation({
     resource: "manager/add-balance",
     invalidateKeys: ["manager/balance"],
   });
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
+  const { mutate: deductBalance } = createMutation({
+    resource: "manager/deduct-balance",
+    invalidateKeys: ["manager/balance"],
+  });
 
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
 
+  const handleCloseDialog = () => {
+    setDialogInfo({ open: false, type: "", amount: 0});
+  };
+
   const submitChanges = () => {
-    updateBalance({ amount: amount });
+    if (dialogInfo.type === "add") {
+      addBalance({ amount: dialogInfo.amount });
+    } else {
+      deductBalance({ amount: dialogInfo.amount });
+    }
     handleCloseDialog();
   };
 
-  const { data, isError, isLoading } = getQuery("manager/balance");
+  const { data : balanceData, isErrorBalance, isLoadingBalance } = getQuery("manager/balance");
+  const { data : overviewData, isError, isLoading } = getQuery("manager/overview-data");
 
-  // Use getQuery to get the number of applicants
-  const {
-    data: numApplicants,
-    isError: errorApplicants,
-    isLoading: loadingApplicants,
-  } = getQuery("manager/get-num-applicants");
-
-  // Check if both data and numApplicants are defined
-  const isDataLoaded =
-    !isLoading && !loadingApplicants && data && numApplicants;
-
-  if (!isDataLoaded) {
+  if (isLoading) {
     return <p>Loading...</p>;
   }
 
-  if (isError || errorApplicants) {
+  if (isError) {
     return <p>Error</p>;
   }
 
-  const numApplicant = numApplicants[0].num_applicants;
-  let balance = data[0].balance;
+  const balance = balanceData?.balance ?? 0;
+  const currentlyFunding = overviewData?.currentlyFunding ?? 0;
+  const unattendedApplications = overviewData?.unattendedApplications ?? 0;
+  const totalApplications = overviewData?.totalApplications ?? 0;
+  const totalFundingOpportunities = overviewData?.totalFundingOpportunities ?? 0;
 
   return (
+    <>
     <article className="card-area">
       <section className="card-row">
         <article className="card graph-card">
@@ -78,15 +74,7 @@ export default function FundManagerOverviewCards() {
           <small>Budgeting And Fund Disbursement</small>
           <p className="card-title">Funds You've Offered</p>
           <section className="graph-area">
-            <PieArcLabel />
-          </section>
-            <Divider style={{margin: "2rem 0"}}/>
-          <section className="graph-area">
-            <BarAnimation />
-          </section>
-
-          <section className="graph-area">
-            <Basic />
+            <FundAmountsPie/>
           </section>
         </article>
         <article className="card-group">
@@ -102,7 +90,7 @@ export default function FundManagerOverviewCards() {
                 </i>
               </section>
               <h3>Total Applicants Received</h3>
-              <big>{numApplicant}</big>
+              <big>{totalApplications}</big>
             </article>
             <article className="card">
               <section
@@ -114,7 +102,7 @@ export default function FundManagerOverviewCards() {
                 </i>
               </section>
               <h3>Total Open Fund Ads</h3>
-              <big>11</big>
+              <big>{totalFundingOpportunities}</big>
             </article>
           </section>
           <article className="card" style={{ height: "17rem" }}>
@@ -129,17 +117,21 @@ export default function FundManagerOverviewCards() {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleOpenDialog}
+                onClick={() => {
+                  setDialogInfo({ open: true, type: "add" });
+                }}
               >
                 Add Money
               </Button>
-              {/* <Button
+              <Button
                 variant="outlined"
                 color="primary"
-                onClick={handleOpenDialog}
+                onClick={() => {
+                  setDialogInfo({ open: true, type: "deduct" });
+                }}
               >
                 Withdraw
-              </Button> */}
+              </Button>
             </Stack>
           </article>
         </article>
@@ -167,18 +159,18 @@ export default function FundManagerOverviewCards() {
             }}
           >
             <h3>Currently Funding</h3>
-            <big>21</big>
+            <big>{currentlyFunding}</big>
           </section>
           <section>
             <h3>Unattended Applications</h3>
-            <big>4</big>
+            <big>{unattendedApplications}</big>
           </section>
         </article>
       </section>
 
       {/* Dialog for adding money or withdrawing */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>{"Enter Amount"}</DialogTitle>
+      <Dialog open={dialogInfo.open} onClose={handleCloseDialog}>
+        <DialogTitle>{"Enter Amount to" + (dialogInfo.type === "add" ? " Add" : " Withdraw")}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -187,7 +179,7 @@ export default function FundManagerOverviewCards() {
             label="Amount"
             type="number"
             fullWidth
-            value={amount}
+            value={dialogInfo.amount}
             onChange={handleAmountChange}
           />
         </DialogContent>
@@ -197,5 +189,14 @@ export default function FundManagerOverviewCards() {
         </DialogActions>
       </Dialog>
     </article>
+    <article className="card-area d-flex">
+        <section className="single-analytic-card card">
+          <><ApprovedApplicantsBar/></>
+        </section>
+        <section className="single-analytic-card card">
+          <></>
+        </section>
+    </article>
+    </>
   );
 }

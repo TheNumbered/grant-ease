@@ -1,11 +1,11 @@
 import express from "express";
 const router = express.Router();
 
-router.get("/applications",  (req, res, next) => {
+router.get("/applications", (req, res, next) => {
   const id = req.auth.userId;
   req.db.query(
     `
-    SELECT fa.*, u.full_name
+    SELECT fa.*, u.full_name, fo.amount
     FROM funding_applications fa
     JOIN funding_opportunities fo ON fa.fund_id = fo.id
     JOIN user u ON fa.applicant_id = u.id
@@ -20,22 +20,42 @@ router.get("/applications",  (req, res, next) => {
   );
 });
 
-router.post("/update-applications", (req, res, next) => {
-    const { ids, newStatus } = req.body;
-
-    if (!ids || !newStatus) {
-      return res.status(400).json({ message: "Missing required parameters" });
+router.get("/applications/:id", (req, res, next) => {
+  const id = req.auth.userId;
+  const fundId = req.params.id;
+  req.db.query(
+    `
+    SELECT fa.*, u.full_name, fo.amount
+    FROM funding_applications fa
+    JOIN funding_opportunities fo ON fa.fund_id = fo.id
+    JOIN user u ON fa.applicant_id = u.id
+    WHERE fo.manager_id = ? 
+    AND fa.status = 'pending'
+    AND fo.id = ?;
+    `,
+    [id, fundId],
+    (err, result) => {
+      if (err) return next(err);
+      res.json(result);
     }
+  );
+});
 
-    req.db.query(
-      "UPDATE funding_applications SET status = ? WHERE id IN (?)",
-      [newStatus, ids],
-      (err, result) => {
-        if(err) return next(err);
-        res.json({ message: "Status updated successfully" });
-      }
-    );
+router.post("/update-applications", (req, res, next) => {
+  const { ids, newStatus } = req.body;
+
+  if (!ids || !newStatus) {
+    return res.status(400).json({ message: "Missing required parameters" });
   }
-);
+
+  req.db.query(
+    "UPDATE funding_applications SET status = ? WHERE id IN (?)",
+    [newStatus, ids],
+    (err, result) => {
+      if (err) return next(err);
+      res.json({ message: "Status updated successfully" });
+    }
+  );
+});
 
 export default router;

@@ -3,10 +3,7 @@ const router = express.Router();
 
 router.get("/funding-balance", async (req, res) => {
     const id = req.auth.userId;
-    const query = `
-        SELECT  manager_Id,balance,names
-        FROM fund_manager_info
-    `;
+    const query = `SELECT id as manager_id,balance FROM user`;
     req.db.query(query, [id], (err, result) => {
         if (err) {
         console.log(err);
@@ -15,7 +12,7 @@ router.get("/funding-balance", async (req, res) => {
         res.send(result);
         }
     });
-    });
+});
 
 
     export default router;

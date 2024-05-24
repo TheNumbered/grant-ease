@@ -1,6 +1,6 @@
 import { LineChart, lineElementClasses } from '@mui/x-charts/LineChart';
 import * as React from 'react';
-import { getQuery } from '../../../dataprovider';
+import { getQuery } from '../../../../dataprovider';
 
 export function Basic() {
   const {data, isLoading, isError}= getQuery('manager/funding-balance');
