@@ -92,7 +92,7 @@ const CreateFundingOpportunity = () => {
 
   return (
     <>
-      <Grid component={'article'} item xs={12} sm={8} md={6} lg={8}>
+      <Grid component={'article'} item xs={12} sm={8} md={6} lg={8} >
         <section
           className="breadcrum"
           style={{ padding: "2rem 4rem", paddingBottom: "0rem" }}

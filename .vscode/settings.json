@@ -2,15 +2,15 @@
     "files.exclude": {
         "**/package.json": true,
         "**/node_modules": true,
-        //"**/coverage": true,
+        "**/coverage": true,
 
         "**/README.md": true,
         "**/.git*": true,
         
         "**/dist": true,
         "**/pnpm*": true,
-        //"**/vite*": true,
-        //"**/*config*": true,
+        "**/vite*": true,
+        "**/*config*": true,
         "**/.es*": true,
      },
     "editor.codeActionsOnSave": {

@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.get("/apply-fund-manager", (req, res, next) => {
+router.post("/apply-fund-manager", (req, res, next) => {
     const id = req.auth.userId;
     
     req.db.query("SELECT role FROM user WHERE id = ?", [id], (err, results) => {

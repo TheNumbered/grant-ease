@@ -77,7 +77,7 @@ const FundingPage = () => {
               </section>
               <section className="card-main">
                 <h2>{fund.title}</h2>
-                <p>{`Amount: $${parseFloat(fund.amount).toFixed(2)}`}</p>
+                <p>{`Amount: R ${parseFloat(fund.amount).toFixed(2)}`}</p>
                 <p>{fund.description}</p>
               </section>
               <section className="card-footer">

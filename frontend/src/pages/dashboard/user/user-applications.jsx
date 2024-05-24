@@ -60,7 +60,7 @@ export const UserApplications = () => {
                       ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       : data
                     ).map(application => (
-                      <TableRow key={application.applicant_id}>
+                      <TableRow key={application.id}>
                         <TableCell>{application.title}</TableCell>
                         <TableCell>{toSentenceCase(application.status)}</TableCell>
                       </TableRow>
