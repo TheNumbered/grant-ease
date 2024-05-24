@@ -12,7 +12,7 @@ const theme = createTheme({
     },
   },
   spacing: 12,
-  /*
+  
   components: {
     MuiCard: {
       styleOverrides: {
@@ -57,86 +57,9 @@ const theme = createTheme({
         component: 'section',
       },
     },
-    MuiCardActions: {
-      styleOverrides: {
-        root: {
-          marginTop: '1rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          '& .btn, & .btn-disabled': {
-            padding: '0.5rem 1rem',
-            border: 'none',
-            background: '#095f59',
-            borderRadius: '0.3rem',
-            color: '#fff',
-            '&:hover': {
-              opacity: 0.8,
-            },
-            '&.btn-disabled': {
-              opacity: 0.5,
-            },
-          },
-        },
-      },
-    },
     MuiButton: {
-      styleOverrides: {
-        root: {
-          //padding: '1.3rem 2.6rem',
-          border: 'none',
-          color: '#fff',
-          fontSize: '1rem',
-          //borderRadius: '2rem',
-          backgroundColor: '#095f59',
-          '&:hover': {
-            backgroundColor: '#083d3b',
-          },
-        },
-        contained: {
-          '&:hover': {
-            opacity: 0.8,
-          },
-          '&.Mui-disabled': {
-            opacity: 0.5,
-          },
-        },
-      },
       defaultProps: {
         component: 'button',
-      },
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          '&.Mui-focused': {
-            border: 'none !important',
-            outline: 'none',
-          },
-          '& #find-funding': {
-            border: 'none',
-            marginLeft: '1rem',
-            backgroundColor: '#fffbef',
-            width: '-moz-available',
-          },
-        },
-      },
-      defaultProps: {
-        component: 'div',
-      },
-    },
-    MuiFormControl: {
-      styleOverrides: {
-        root: {
-          border: '2px solid #095f59',
-          display: 'flex',
-          fontSize: '1rem',
-          justifyContent: 'space-between',
-          borderRadius: '3rem',
-          padding: '0.5rem',
-        },
-      },
-      defaultProps: {
-        component: 'form',
       },
     },
     MuiTypography: {
@@ -191,7 +114,6 @@ const theme = createTheme({
       xl: 1536,
     },
   },
-  */
 });
 
 export default theme;

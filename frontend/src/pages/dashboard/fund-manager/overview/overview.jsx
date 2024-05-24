@@ -72,9 +72,8 @@ export function OverviewPage() {
     <article className="card-area">
       <section className="card-row">
         <article className="card graph-card">
-          <h3>Analytics</h3>
+          <h3>Funds You've Offered</h3>
           <small>Budgeting And Fund Disbursement</small>
-          <p className="card-title">Funds You've Offered</p>
           <section className="graph-area">
             <FundAmountsPie/>
           </section>

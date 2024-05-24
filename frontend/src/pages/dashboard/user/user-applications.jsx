@@ -1,5 +1,3 @@
-import { CenteredLayout } from '@/layouts';
-import { CircularProgress } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,13 +9,14 @@ import Typography from '@mui/material/Typography';
 import { getQuery } from 'dataprovider';
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { LoadingPage } from '../../loading-page';
 
 export const UserApplications = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const { data, isError, isLoading } = getQuery('user/applications');
   if (isLoading) {
-    return <CenteredLayout extras={{ "data-testid": "loading-page" }}><CircularProgress /></CenteredLayout>
+    return <LoadingPage />
   };
   if (isError) {
     Navigate("/error");

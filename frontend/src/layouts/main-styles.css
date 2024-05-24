@@ -16,8 +16,8 @@ header h1 {
 }
 
 .navbar {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
 }
 main {
     background-color: #fffbef;

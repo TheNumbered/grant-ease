@@ -44,7 +44,7 @@ export function ApprovedApplicantsBar() {
 
   return (
     <>
-      <h2  style={{fontSize: "2rem"}}>People funded</h2>
+      <h3>People funded</h3>
 
       <Column {...config}/>
     </>

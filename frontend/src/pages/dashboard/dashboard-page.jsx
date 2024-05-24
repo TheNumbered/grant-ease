@@ -9,8 +9,7 @@ import RoleChangeRequest from "./admin/role-change-request";
 import { AdvertsPage, OverviewPage } from "./fund-manager";
 import { UserDashboard } from "./user/dashboard";
 
-function CustomTabPanel(props) {
-    const { children, value, index, ...other } = props;
+function CustomTabPanel({ children, value, index, ...other }) {
   
     return (
       <div
@@ -19,8 +18,9 @@ function CustomTabPanel(props) {
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
         {...other}
+        style={{ paddingTop: "1rem" }}
       >
-        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+        {children}
       </div>
     );
   }
@@ -61,7 +61,7 @@ export const DashboardPage = () => {
             {(() => {
                 if (data.role === "fund_manager") {
                     return (
-                        <Box sx={{ width: "100%" }}>
+                        <>
                         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                             <Tabs
                                 value={value}
@@ -78,12 +78,11 @@ export const DashboardPage = () => {
                         <CustomTabPanel value={value} index={1}>
                             <AdvertsPage/>
                         </CustomTabPanel>
-                        </Box>
-
+                        </>
                     );
                 } else if(data.role === "admin"){
                     return (
-                        <Box sx={{ width: "100%" }}>
+                        <>
                         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                             <Tabs
                                 value={value}
@@ -108,7 +107,7 @@ export const DashboardPage = () => {
                         <CustomTabPanel value={value} index={3}>
                             <AdvertsPage/>
                         </CustomTabPanel>
-                        </Box>
+                        </>
                     );
                 }
                 else{

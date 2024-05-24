@@ -25,5 +25,11 @@ const config = {
         waveLength: 128
     },
 };
-  return <Liquid {...config} />;
+  return (
+    <>
+      <h3>Balance Remaining</h3>
+
+      <Liquid {...config} />
+    </>
+  );
 };

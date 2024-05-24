@@ -48,14 +48,14 @@ export default function PrimarySearchAppBar() {
             variant="h6"
             noWrap
             component="section"
-            //sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: 'none', sm: 'block' } }}
+            onClick={() => {navigate("/home")}}
           >
             GrantEase
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box>
             <IconButton
-              size="large"
               aria-label="show new notifications"
               color="inherit"
               onClick={() => setIsNotificationOpen(true)}
@@ -71,7 +71,6 @@ export default function PrimarySearchAppBar() {
             </IconButton>
 
             <IconButton
-              size="large"
               aria-label="account of current user"
               aria-controls="profile-menu"
               aria-haspopup="true"

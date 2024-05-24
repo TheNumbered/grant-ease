@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { getQuery } from "dataprovider";
 import { useEffect, useState } from "react";
 import { LoadingPage } from "../loading-page";
@@ -7,7 +7,7 @@ import ApplyModal from "./apply-modal";
 const FundingPage = () => {
   const { data, isError, isLoading } = getQuery("funding-opportunities");
   const [openModal, setOpenModal] = useState(false);
-  const [selectedFund, setSelectedFund] = useState(null);  // New state to track selected fund
+  const [selectedFund, setSelectedFund] = useState(null); // New state to track selected fund
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
@@ -34,7 +34,11 @@ const FundingPage = () => {
       <section className="HeroSection">
         <h1 style={{ marginTop: "0" }}>Find Your Funding Here!</h1>
         <section className="BigSearchSection">
-          <form onSubmit={(e)=>{e.preventDefault()}}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
             <input
               type="search"
               name="find-funding"
@@ -44,7 +48,7 @@ const FundingPage = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
                 width: "100%",
-                fontSize: "1rem"
+                fontSize: "1rem",
               }}
             />
             <button type="submit">Search</button>
@@ -55,7 +59,7 @@ const FundingPage = () => {
       <Grid
         component={"section"}
         container
-        spacing={3}
+        spacing={2}
         style={{ marginTop: "1rem" }}
       >
         {filteredData.map((fund) => (
@@ -66,7 +70,9 @@ const FundingPage = () => {
                   src={import.meta.env.VITE_API_URL + "/" + fund.image}
                   alt="fund-image"
                   height={200}
-                  onError={(e) => { e.target.style.display = 'none'; }}
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                  }}
                 />
               )}
               <section className="card-header">
@@ -76,18 +82,18 @@ const FundingPage = () => {
                 </p>
               </section>
               <section className="card-main">
-                <h2>{fund.title}</h2>
-                <p>{`Amount: R ${parseFloat(fund.amount).toFixed(2)}`}</p>
-                <p>{fund.description}</p>
+                <Typography variant="h6">{fund.title}</Typography>
+                <Typography variant="body1">{`Amount: R ${parseFloat(
+                  fund.amount
+                ).toFixed(2)}`}</Typography>
+                <Typography variant="body2">{fund.description}</Typography>
               </section>
               <section className="card-footer">
-
-                { fund.is_manager === 1 ? (
+                {fund.is_manager === 1 ? (
                   <button className="btn-disabled" disabled>
                     You are the manager
                   </button>
-                ) :
-                fund.application_status === "pending" ? (
+                ) : fund.application_status === "pending" ? (
                   <button className="btn-disabled" disabled>
                     Application Pending
                   </button>
@@ -105,8 +111,8 @@ const FundingPage = () => {
                     type="submit"
                     value="Apply"
                     onClick={() => {
-                      setSelectedFund(fund);  // Set the selected fund
-                      setOpenModal(true);     // Open the modal
+                      setSelectedFund(fund); // Set the selected fund
+                      setOpenModal(true); // Open the modal
                     }}
                   />
                 )}
@@ -122,7 +128,7 @@ const FundingPage = () => {
           fund={selectedFund}
           onClose={() => {
             setOpenModal(false);
-            setSelectedFund(null);  // Clear the selected fund on close
+            setSelectedFund(null); // Clear the selected fund on close
           }}
         />
       )}

@@ -7,7 +7,7 @@
     "install-global-dep": "npm i -g pnpm nodemon serve",
     "install-each": "cd backend && pnpm i && cd ../frontend && pnpm i",
     "backend": "cd backend && nodemon server.js",
-    "frontend": "cd frontend && vite",
+    "frontend": "cd frontend && vite --host",
     "build": "cd frontend && vite build",
     "test": "vitest",
     "coverage": "vitest --coverage"
