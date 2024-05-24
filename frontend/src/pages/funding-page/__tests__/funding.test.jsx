@@ -66,7 +66,7 @@ test("renders funding opportunities when data is available", () => {
   fundingOpportunityElements.forEach((element, index) => {
     const funding = mockData[index];
     expect(screen.getByText(funding.title)).toBeInTheDocument();
-    expect(screen.getByText(`Amount: $${parseFloat(funding.amount).toFixed(2)}`)).toBeInTheDocument();
+    expect(screen.getByText(`Amount: R ${parseFloat(funding.amount).toFixed(2)}`)).toBeInTheDocument();
     expect(screen.getByText(funding.description)).toBeInTheDocument();
   });
 });
