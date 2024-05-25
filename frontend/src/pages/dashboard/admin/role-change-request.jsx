@@ -22,10 +22,15 @@ export default function RoleChangeRequest() {
   const { data: result, isLoading, isError } = getQuery("admin/pending-managers");
 
   const { mutate: updateIds} = updateManyMutation({resource:"admin/update-roles",invalidateKeys:["admin/pending-managers"]})
-
+  
+  const { mutate: notify } = updateManyMutation({resource: "notify"});
   const handleStatusChange = (selected, status) => {
       const newRole = status === "approve" ? "fund_manager" : "user";
-      updateIds({ids: selected, newRole})
+      updateIds({ids: selected, newRole});
+      const notifyType = status === "approve" ? "approved fund manager" : "rejected fund manager";
+      selected.forEach(id => {
+        notify({"target_user_id" : id, type: notifyType});
+      });
   };
   let data = result ?? [];
   data = transformData(data);

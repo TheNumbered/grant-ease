@@ -32,7 +32,8 @@ const FundingPage = () => {
   return (
     <>
       <section className="HeroSection">
-        <h1 style={{ marginTop: "0" }}>Find Your Funding Here!</h1>
+        <h1>Find Your Funding Here!</h1>
+        <p>Explore a World of Opportunities to Fuel Your Vision</p>
         <section className="BigSearchSection">
           <form
             onSubmit={(e) => {
@@ -43,7 +44,7 @@ const FundingPage = () => {
               type="search"
               name="find-funding"
               id="find-funding"
-              placeholder="Search Company or keyword"
+              placeholder="What Are You Looking For?"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{

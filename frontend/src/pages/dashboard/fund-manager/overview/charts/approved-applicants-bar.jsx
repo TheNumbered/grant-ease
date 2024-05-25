@@ -23,7 +23,7 @@ export function ApprovedApplicantsBar() {
     },
     animate: { enter: { type: 'growInX' } },
     label: {
-      position: 'middle',
+      // position: 'middle',
       style: {
         fill: '#FFFFFF',
         opacity: 0.6,
@@ -36,7 +36,7 @@ export function ApprovedApplicantsBar() {
       },
     },
     style: {
-      fill: '#3da08e',
+      fill: '#f2bb13',
     },
     forceFit: true,
     height: 400,
