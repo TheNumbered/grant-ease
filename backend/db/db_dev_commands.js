@@ -1,3 +1,4 @@
+/* v8 ignore start */
 import { exec } from 'child_process';
 import dotenv from 'dotenv';
 
@@ -50,3 +51,4 @@ if (action && env) {
 } else {
     console.error('Invalid usage. Please provide "dump" or "restore" as action and "local" or "server" as environment.');
 }
+/* v8 ignore stop */

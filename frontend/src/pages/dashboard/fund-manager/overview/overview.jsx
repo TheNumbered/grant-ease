@@ -20,7 +20,8 @@ import { FundAmountsPie } from "./charts/fund-amount-pie";
 export function OverviewPage() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [dialogInfo, setDialogInfo] = useState({ open: false , type: "", amount: 0});
+  const [dialogInfo, setDialogInfo] = useState({ open: false , type: ""});
+  const [dialogAmount, setDialogAmount] = useState(0);
 
   const { mutate: addBalance } = createMutation({
     resource: "manager/add-balance",
@@ -33,20 +34,20 @@ export function OverviewPage() {
   });
 
   const handleAmountChange = (event) => {
-    setDialogInfo({ ...dialogInfo, amount: event.target.value });
-  };
+    setDialogAmount(event.target.value);
+  }
 
   const handleCloseDialog = () => {
-    setDialogInfo({ open: false, type: "", amount: 0});
+    setDialogInfo({ open: false, type: ""});
   };
 
   const submitChanges = () => {
-    console.log(dialogInfo.type, dialogInfo.amount);
     if (dialogInfo.type === "add") {
-      addBalance({ amount: dialogInfo.amount });
+      addBalance({ amount: dialogAmount });
     } else {
-      deductBalance({ amount: dialogInfo.amount });
+      deductBalance({ amount: dialogAmount });
     }
+    setDialogAmount(0);
     handleCloseDialog();
   };
 
@@ -180,8 +181,8 @@ export function OverviewPage() {
             label="Amount"
             type="number"
             fullWidth
-            value={dialogInfo.amount}
             onChange={handleAmountChange}
+            value={dialogAmount}
           />
         </DialogContent>
         <DialogActions>
