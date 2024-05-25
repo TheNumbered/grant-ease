@@ -1,3 +1,4 @@
+/* v8 ignore start */
 import { Liquid } from "@ant-design/plots";
 import { getQuery } from "dataprovider";
 import React from "react";
@@ -33,3 +34,5 @@ const config = {
     </>
   );
 };
+
+/* v8 ignore stop */

@@ -12,7 +12,7 @@ import { UserDashboard } from "./user/dashboard";
 function CustomTabPanel({ children, value, index, ...other }) {
   
     return (
-      <div
+      <section
         role="tabpanel"
         hidden={value !== index}
         id={`simple-tabpanel-${index}`}
@@ -21,7 +21,7 @@ function CustomTabPanel({ children, value, index, ...other }) {
         style={{ paddingTop: "1rem" }}
       >
         {children}
-      </div>
+      </section>
     );
   }
   

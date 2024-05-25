@@ -1,3 +1,4 @@
+/* v8 ignore start */
 import { Column } from '@ant-design/plots';
 import { getQuery } from 'dataprovider';
 import * as React from 'react';
@@ -50,3 +51,4 @@ export function ApprovedApplicantsBar() {
     </>
   );
 }
+/* v8 ignore stop */

@@ -1,5 +1,4 @@
 import express from "express";
-import { db } from "../../db/index.js";
 const router = express.Router();
 
 router.get("/overview-data", (req, res, next) => {
@@ -7,7 +6,7 @@ router.get("/overview-data", (req, res, next) => {
   // const id = "user1"; // For testing purposes
 
   // Query for currently funding opportunities
-  db.query(
+  req.db.query(
     `
       SELECT COUNT(*) AS currentlyFunding
       FROM funding_applications WHERE status = 'approved' AND fund_id IN (
@@ -22,7 +21,7 @@ router.get("/overview-data", (req, res, next) => {
       const currentlyFunding = result[0].currentlyFunding;
 
       // Query for unattended applications with status 'pending'
-      db.query(
+      req.db.query(
         `
           SELECT COUNT(*) AS unattendedApplications
           FROM funding_applications
@@ -39,7 +38,7 @@ router.get("/overview-data", (req, res, next) => {
           const unattendedApplications = result[0].unattendedApplications;
 
           // Query for total applications received
-          db.query(
+          req.db.query(
             `
               SELECT COUNT(*) AS totalApplications
               FROM funding_applications
@@ -55,7 +54,7 @@ router.get("/overview-data", (req, res, next) => {
               const totalApplications = result[0].totalApplications;
 
               // Query for total funding opportunities with deadline check
-              db.query(
+              req.db.query(
                 `
                   SELECT COUNT(*) AS totalFundingOpportunities
                   FROM funding_opportunities

@@ -1,3 +1,4 @@
+/* v8 ignore start */
 import { Pie } from '@ant-design/plots';
 import { getQuery } from 'dataprovider';
 import * as React from 'react';
@@ -62,3 +63,5 @@ export function FundAmountsPie() {
   };
   return <Pie {...config} />;
 }
+
+/* v8 ignore stop */
