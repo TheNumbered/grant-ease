@@ -2,7 +2,6 @@ import express from "express";
 import { db } from "../../db/index.js";
 const router = express.Router();
 
-
 // Route to get funding opportunities title from the database by the fund manager id
 router.get("/funding-opportunities", (req, res, next) => {
   const id = req.auth.userId;
@@ -12,7 +11,7 @@ router.get("/funding-opportunities", (req, res, next) => {
     SELECT fo.id, fo.title, COUNT(fa.id) AS numApplicants
     FROM funding_opportunities AS fo
     LEFT JOIN funding_applications AS fa ON fo.id = fa.fund_id AND fa.status = 'pending'
-    WHERE fo.manager_id = ?
+    OR fa.status = 'approved' WHERE fo.manager_id = ?
     GROUP BY fo.id, fo.title;
     `,
     [id],
@@ -35,6 +34,7 @@ router.delete("/funding-opportunities/:id", (req, res, next) => {
     (err, result) => {
       if (err) return next(err);
       res.json(result);
+      console.log(`err: ${err} `);
     }
   );
 });
