@@ -23,7 +23,7 @@ const theme = createTheme({
           display: 'flex',
           justifyContent: 'space-between',
           flexDirection: 'column',
-          border: '1px solid #ffd661',
+          // border: '1px solid #ffd661',
         },
       },
       defaultProps: {
@@ -97,7 +97,7 @@ const theme = createTheme({
           //borderRadius: '2rem',
           //padding: '2rem',
           background: '#fff',
-          border: '1px solid #ffd661',
+          // border: '1px solid #ffd661',
         },
       },
       defaultProps: {

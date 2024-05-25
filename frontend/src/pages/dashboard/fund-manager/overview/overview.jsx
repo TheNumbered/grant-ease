@@ -79,7 +79,7 @@ export function OverviewPage() {
           </section>
         </article>
         <article className="card-group">
-          <section style={{ direction: "flex", display: "flex" }}>
+          <section style={{display: "flex", height: '49%', marginBottom: '0.4rem'}}>
             <article className="card">
               <section
                 className="icon-area"
@@ -106,7 +106,7 @@ export function OverviewPage() {
               <big>{totalFundingOpportunities}</big>
             </article>
           </section>
-          <article className="card" style={{ height: "17rem" }}>
+          <article className="card" style={{ height: "49%" }}>
             <h3>Total Balance</h3>
             <big>R{balance}</big>
             <Stack
@@ -191,7 +191,7 @@ export function OverviewPage() {
       </Dialog>
     </article>
     <article className="card-area d-flex">
-        <section className="single-analytic-card card">
+        <section className="single-analytic-card card" style={{marginBottom: '1rem'}}>
           <><ApprovedApplicantsBar/></>
         </section>
         <section className="single-analytic-card card">

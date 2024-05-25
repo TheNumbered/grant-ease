@@ -103,28 +103,57 @@ main .banner-area h2 {
     opacity: 0.5;
 }
 
-@media only screen and (max-width: 600px) {
-    main {
-        padding: 0.25rem;
+@media only screen and (max-width: 400px) {
+    .HeroSection {
+        padding: 1rem;
     }
-    .card.graph-card {
-        display: none;
+    .HeroSection form button {
+        padding: 1rem;
     }
-    .banner-area {
-        margin: 2rem;
+    .HeroSection h1 {
+        padding-top: 2rem !important;
     }
-    .card-row {
-        flex-direction: column;
+    .HeroSection p {
+        margin-bottom: 1rem;
+        font-size: 14px;
     }
+
+  }
+
+@media only screen and (max-width: 901px){
     .z-axis-sticky-tab {
         width: 100%;
         padding: 0;
+        background: #fff;
+    }
+    .z-axis-sticky-tab h2 {
+        margin-top: 2rem;
+        font-size: 1.2rem;
+        
+    }
+    .z-axis-sticky-tab .sticky-tab-close-btn{
+        position: absolute;
+        right: 10px;
+        background: #fff;
+        outline: none;
+        border: 1px solid #f90;
+        border-radius: 2rem;
+        padding: 1rem 1.5rem;
+        text-align: center;
     }
 }
 
-@media only screen and (min-width: 601px) and (max-width: 900px) {
+@media only screen and (min-width: 400px) and (max-width: 901px) {
     main {
-        padding: 0;
+        padding: 0.25rem;
+    }
+
+    .HeroSection h1 {
+        font-size: 1.8rem;
+    }
+    
+    .card.graph-card {
+        display: none;
     }
     .banner-area {
         margin: 2rem;
@@ -132,8 +161,8 @@ main .banner-area h2 {
     .card-row {
         flex-direction: column;
     }
-    .card.graph-card {
-        display: none;
+    .HeroSection {
+        margin: 2rem;
     }
 }
 
@@ -141,6 +170,24 @@ main .banner-area h2 {
     .banner-area {
         margin: 2rem;
         margin-left: 0;
+    }
+    .HeroSection {
+        margin: 3rem;
+    }
+
+    .HeroSection h1 {
+        font-size: 3rem;
+        line-height: 4rem;
+    }
+    
+
+    .BigSearchSection{
+        display: flex;
+        justify-content: center;
+    }
+
+    .BigSearchSection form {
+        width: 70%;
     }
     main {
         padding: 3rem;
@@ -169,9 +216,30 @@ main .banner-area h2 {
         height: 2rem;
         border-radius: 50%;
     }
+    .z-axis-sticky-tab .sticky-tab-close-btn:hover{
+        background: #f90;
+        color: #fff;
+    }
     header{
         z-index: 10;
     }
+}
+
+.z-axis-sticky-tab ul {
+    overflow: scroll;
+    height: 98%;
+}
+
+.HeroSection {
+    text-align: center;
+}
+
+.HeroSection p {
+    margin-bottom: 2rem;
+}
+
+.HeroSection h1{
+    margin: 0;
 }
 
 .card-title {
@@ -227,6 +295,7 @@ p, h3 {
     background: #000000ab;
     border-bottom-left-radius: 2rem;
     border-bottom-right-radius: 2rem;
+    height: 34%;
 }
 
 .stacked-cards {
@@ -266,6 +335,10 @@ p, h3 {
     border: none;
     outline: none;
     padding: 2rem;
+}
+
+.stacked-cards button, .stacked-cards section{
+    height: 33%;
 }
 
 .stacked-cards button i {
@@ -335,8 +408,14 @@ body, main {
     width: 100%;
 }
 
-
+.card-group {
+    height: auto;
+}
 
 .text-center {
     text-align: center;
+}
+
+.navbar{
+    border: none;
 }

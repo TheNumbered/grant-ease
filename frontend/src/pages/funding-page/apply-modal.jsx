@@ -18,7 +18,7 @@ import { createMutation } from "dataprovider";
 const ApplyModal = ({ open, fund, onClose }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [additionalFieldsData, setAdditionalFieldsData] = useState([]);
-
+  const { mutate: notify } = createMutation({resource: "notify"});
   const handleFileChange = (event) => {
     const { name, files } = event.target;
     const file = files[0];
@@ -59,6 +59,7 @@ const ApplyModal = ({ open, fund, onClose }) => {
     formData.append("fund_id", fund.id);
     formData.append("additional_fields", JSON.stringify(additionalFieldsData));
     applyForFunding(formData);
+    notify({"type": "new applicant", "fund_id": fund.id});
     onClose();
   };
 

@@ -9,7 +9,7 @@ router.get("/notifications",
     const id = req.auth.userId;
     
     // Perform the SELECT query to get notifications
-    req.db.query("SELECT n.*, fo.title FROM notifications n LEFT JOIN funding_opportunities fo ON n.fund_id = fo.id WHERE n.user_id = ? ORDER BY time_posted DESC", [id], (err, notifications) => {
+    req.db.query("SELECT n.*, fo.title FROM notifications n LEFT JOIN funding_opportunities fo ON n.fund_id = fo.id WHERE n.user_id = ? OR fund_id IN (SELECT id FROM funding_opportunities WHERE manager_id = ?) ORDER BY n.time_posted DESC", [id,id], (err, notifications) => {
         if (err) {
             console.error("Error querying database:", err);
             return res.status(500).json({ error: "Internal Server Error" });
@@ -39,7 +39,9 @@ router.get("/notifications",
 });
 
 
-router.get('/UnseenNotificationsCount', ClerkExpressRequireAuth() ,(req, res) => {
+router.get('/unseenNotificationsCount', 
+    ClerkExpressRequireAuth() , 
+    (req, res) => {
     const id = req.auth.userId;
     req.db.query("SELECT COUNT(*) AS unseen_count FROM notifications WHERE user_id = ? AND seen = 0", [id], (err, result) => {
         if (err) {

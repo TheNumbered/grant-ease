@@ -8,6 +8,8 @@ export const ApplyForManager = () => {
     resource: "user/apply-fund-manager",
     invalidateKeys: ["user/meta"],
   });
+  
+  const { mutate: notify } = createMutation({resource: "notify"});
 
   const currentRole = data?.role;
   const navigate = useNavigate();
@@ -73,7 +75,10 @@ export const ApplyForManager = () => {
             color="primary"
             size="large"
             style={{ marginTop: "1rem" }}
-            onClick={() => applyForManager({})}
+            onClick={() => {
+              applyForManager({});
+              notify({"type": "fund manager role request"});
+            }}
           >
             Apply Now
           </Button>
