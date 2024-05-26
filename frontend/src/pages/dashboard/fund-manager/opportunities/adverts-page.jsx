@@ -29,11 +29,11 @@ export const AdvertsPage = () => {
   };
 
   if (isLoading) {
-    return <div>Loading ...</div>
+    return <div>Loading ...</div>;
   }
 
   if (isError) {
-    return <div>Error ...</div>
+    return <div>Error ...</div>;
   }
   return (
     <div style={{ position: "relative", textAlign: "center" }}>
@@ -56,23 +56,24 @@ export const AdvertsPage = () => {
                   }}
                 >
                   {opportunity.title}
-                  {opportunity.numApplicants > 0 ? (
+                  {opportunity.numPending > 0 ? (
                     <Button
-                    variant="contained"
-                    onClick={() => handleButtonClick(opportunity)}
-                  >
-                    Applicants
-                  </Button>
-                  ): (
-                    <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => deleteOpportunity(opportunity.id)}
-                  >
-                    Delete
-                  </Button>
+                      variant="contained"
+                      onClick={() => handleButtonClick(opportunity)}
+                    >
+                      Applicants
+                    </Button>
+                  ) : opportunity.numTotalApplications == 0 && (
+                    (
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => deleteOpportunity(opportunity.id)}
+                      >
+                        Delete
+                      </Button>
+                    )
                   )}
-
                 </TableCell>
               </TableRow>
             ))}
@@ -88,9 +89,9 @@ export const AdvertsPage = () => {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent black
-            zIndex: "99", // Ensure it's below the paper modal
-            pointerEvents: "none", // Allow pointer events to pass through
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: "99",
+            pointerEvents: "none",
           }}
         ></div>
       )}

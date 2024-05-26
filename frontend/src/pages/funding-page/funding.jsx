@@ -3,15 +3,17 @@ import { getQuery } from "dataprovider";
 import { useEffect, useState } from "react";
 import { LoadingPage } from "../loading-page";
 import ApplyModal from "./apply-modal";
+import DescriptionModal from "./description-modal"; // Import the DescriptionModal component
 
 const FundingPage = () => {
   const { data, isError, isLoading } = getQuery("funding-opportunities");
   const [openModal, setOpenModal] = useState(false);
-  const [selectedFund, setSelectedFund] = useState(null); // New state to track selected fund
+  const [selectedFund, setSelectedFund] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [descriptionModalOpen, setDescriptionModalOpen] = useState(false);
+  const [fullDescription, setFullDescription] = useState("");
 
-  // Update filtered data whenever data or searchQuery changes
   useEffect(() => {
     if (data) {
       setFilteredData(
@@ -65,7 +67,7 @@ const FundingPage = () => {
       >
         {filteredData.map((fund) => (
           <Grid item key={fund.id} xs={12} sm={6} md={4}>
-            <article className="card h-100">
+            <article className="card">
               {fund.image && (
                 <img
                   src={import.meta.env.VITE_API_URL + "/" + fund.image}
@@ -87,7 +89,35 @@ const FundingPage = () => {
                 <Typography variant="body1">{`Amount: R ${parseFloat(
                   fund.amount
                 ).toFixed(2)}`}</Typography>
-                <Typography variant="body2">{fund.description}</Typography>
+                <Typography
+                  variant="body2"
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: "vertical",
+                    lineHeight: "1.5em",
+                  }}
+                >
+                  {fund.description}
+                </Typography>
+                {fund.description.length > 100 && (
+                  <button
+                    style={{
+                      borderRadius: "5px",
+                      backgroundColor: "#fff",
+                      color: "#000",
+                    
+                    }}
+                    onClick={() => {
+                      setFullDescription(fund.description);
+                      setDescriptionModalOpen(true);
+                    }}
+                  >
+                    Read More
+                  </button>
+                )}
               </section>
               <section className="card-footer">
                 {fund.is_manager === 1 ? (
@@ -112,8 +142,8 @@ const FundingPage = () => {
                     type="submit"
                     value="Apply"
                     onClick={() => {
-                      setSelectedFund(fund); // Set the selected fund
-                      setOpenModal(true); // Open the modal
+                      setSelectedFund(fund);
+                      setOpenModal(true);
                     }}
                   />
                 )}
@@ -129,10 +159,16 @@ const FundingPage = () => {
           fund={selectedFund}
           onClose={() => {
             setOpenModal(false);
-            setSelectedFund(null); // Clear the selected fund on close
+            setSelectedFund(null);
           }}
         />
       )}
+
+      <DescriptionModal
+        open={descriptionModalOpen}
+        description={fullDescription}
+        onClose={() => setDescriptionModalOpen(false)}
+      />
     </>
   );
 };

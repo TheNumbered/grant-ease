@@ -13,7 +13,6 @@ import { CenteredLayout, MainLayout } from "./layouts";
 import { getQuery } from "./dataprovider";
 import { DashboardPage } from "./pages/dashboard";
 import CreateFundingOpportunity from "./pages/dashboard/fund-manager/create-funding";
-import { ApplicantDetails } from "./pages/dashboard/fund-manager/opportunities/applicant-details";
 import { UserApplications } from "./pages/dashboard/user/user-applications";
 import { ErrorPage } from "./pages/error-page";
 import FundingPage from "./pages/funding-page/funding";
@@ -61,7 +60,6 @@ function App() {
               path="/create-funding"
               element={<CreateFundingOpportunity />}
             />
-            <Route path="/applicant-details" element={<ApplicantDetails/>} />
           </Route>
         )}
         {!isSignedIn && (

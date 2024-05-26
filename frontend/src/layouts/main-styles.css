@@ -83,10 +83,10 @@ main .banner-area h2 {
     border: 1px solid #ffd661;
 }
 
-.card .card-main {
+/* .card .card-main {
     height: 10rem;
     overflow: auto;
-}
+} */
 .card.h-100 {
     height: 100%;
 }

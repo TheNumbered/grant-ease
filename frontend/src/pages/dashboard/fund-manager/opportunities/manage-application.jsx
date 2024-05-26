@@ -1,3 +1,4 @@
+import { createMutation, getByIdQuery, updateMutation } from "@/dataprovider";
 import {
   Alert,
   Button,
@@ -9,37 +10,37 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { getByIdQuery } from "dataprovider";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { ApplicationDetailsModal } from "./applicant-details";
 
-// Change data to match the table headers
-function transformData(data) {
-  return data.map((item) => {
-    const transformedItem = {};
-    Object.keys(item).forEach((key) => {
-      if (key === "status") {
-        transformedItem["Status"] = item[key];
-      } else if (key === "full_name") {
-        transformedItem["Full Name"] = item[key];
-      } else {
-        transformedItem[key] = item[key];
-      }
-    });
-    return transformedItem;
-  });
-}
 
 export function ManageApplication({ fundId }) {
-  const { data: result, isLoading, isError } = getByIdQuery("manager/applications", fundId)
-  const nagivate = useNavigate();
+  const { data: result, isLoading, isError } = getByIdQuery("manager/applications", fundId);
+  const [selectedApplication, setSelectedApplication] = useState(null);
 
-  const handleViewDocument = (selectedId) => {
-    const details = result.find((item) => item.id == selectedId);
-    nagivate("/applicant-details", { state: { application: details } });
+  const { mutate: approveApplication } = updateMutation({
+    resource: "manager/approve-application",
+    invalidateKeys: ["manager/applications", "manager/funding-opportunities"],
+  });
+
+  const { mutate: rejectApplication } = updateMutation({
+    resource: "manager/reject-application",
+    invalidateKeys: ["manager/applications", "manager/funding-opportunities"],
+  });
+
+  const { mutate: notify } = createMutation({resource: "notify"});
+
+  const handleStatusChange = (applicationId, status) => {
+    if (status === "approved") {
+      approveApplication({ id: applicationId, newStatus: { status } });
+      notify({type: "approved application", application_id: applicationId});
+    } else {
+      rejectApplication({ id: applicationId, newStatus: { status } });
+      notify({type: "rejected application", application_id: applicationId});
+    }
   };
+
   let data = result ?? [];
-  data = transformData(data);
 
   return (
     <>
@@ -58,15 +59,15 @@ export function ManageApplication({ fundId }) {
             <TableBody>
               {data.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item["Status"]}</TableCell>
-                  <TableCell>{item["Full Name"]}</TableCell>
+                  <TableCell>{item["status"]}</TableCell>
+                  <TableCell>{item["full_name"]}</TableCell>
                   <TableCell>
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={() => handleViewDocument(item.id)}
+                      onClick={() => setSelectedApplication(item)}
                     >
-                      View Application
+                      View Details
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -74,6 +75,15 @@ export function ManageApplication({ fundId }) {
             </TableBody>
           </Table>
         </Card>
+      )}
+      {selectedApplication && (
+        <ApplicationDetailsModal
+          open={!!selectedApplication}
+          onClose={() => setSelectedApplication(null)}
+          application={selectedApplication}
+          onApprove={(id) => handleStatusChange(id, "approved")}
+          onReject={(id) => handleStatusChange(id, "rejected")}
+        />
       )}
     </>
   );

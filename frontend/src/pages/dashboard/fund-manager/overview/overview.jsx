@@ -51,7 +51,7 @@ export function OverviewPage() {
     handleCloseDialog();
   };
 
-  const { data : balanceData, isErrorBalance, isLoadingBalance } = getQuery("manager/balance");
+  const { data : balanceData} = getQuery("manager/balance");
   const { data : overviewData, isError, isLoading } = getQuery("manager/overview-data");
 
   if (isLoading) {

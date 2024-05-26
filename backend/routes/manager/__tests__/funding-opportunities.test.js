@@ -25,13 +25,13 @@ describe("Manager Routes", () => {
   describe("GET /manager/funding-opportunities", () => {
     it("should return funding opportunities for the manager", async () => {
       mockQuery.mockImplementationOnce((callback) => {
-        callback(null, [{ id: 1, title: "Opportunity 1", numApplicants: 5 }]);
+        callback(null, [{ id: 1, title: "Opportunity 1", numPending: 5 }]);
       });
 
       const res = await supertest(app).get("/manager/funding-opportunities");
 
       expect(res.statusCode).toBe(200);
-      expect(res.body).toEqual([{ id: 1, title: "Opportunity 1", numApplicants: 5 }]);
+      expect(res.body).toEqual([{ id: 1, title: "Opportunity 1", numPending: 5 }]);
     });
 
     it("should handle errors during fetching funding opportunities", async () => {

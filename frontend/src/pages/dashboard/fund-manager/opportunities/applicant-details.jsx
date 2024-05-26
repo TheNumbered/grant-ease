@@ -1,24 +1,11 @@
-import { useGlobal } from "@/layouts/global-provider";
 import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Grid,
-  Typography,
+  Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography
 } from "@mui/material";
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { createMutation, updateMutation } from "../../../../dataprovider";
 
-export const ApplicantDetails = () => {
-  const location = useLocation();
-  const applicationId = location.state.application.id;
-  const attachmentData = location.state.application.attachments;
-  const additionalFields = JSON.parse(location.state.application.additional_fields) ?? [];
-  const { showAlert } = useGlobal();
-  
+export const ApplicationDetailsModal = ({ open, onClose, application, onApprove, onReject }) => {
+  if (!application) return null;
+
   const handleDownload = (attachmentUrl) => {
     const link = document.createElement("a");
     link.href = attachmentUrl;
@@ -30,110 +17,62 @@ export const ApplicantDetails = () => {
   };
 
   const extractFileName = (url) => {
-    const pathParts = url.split(/[/\\]/); // Split by both forward and backward slashes
-    const filePart = pathParts[pathParts.length - 1]; // Get the last part which contains the file name with timestamp
+    const pathParts = url.split(/[/\\]/);
+    const filePart = pathParts[pathParts.length - 1];
     const nameParts = filePart.split("-");
     return nameParts.slice(0, nameParts.length - 1).join("-");
   };
 
-  const {mutate: approveApplication, data: approve_result } = updateMutation({
-    resource : "manager/approve-application",
-    invalidateKeys : ["manager/applications", "manager/funding-opportunities"]
-  })
-
-  const {mutate: rejectApplication, data: reject_result } = updateMutation({
-    resource : "manager/reject-application",
-    invalidateKeys : ["manager/applications", "manager/funding-opportunities"]
-  })
-
-  const { mutate: notify } = createMutation({resource: "notify"});
-
-  const handleStatusChange = (status) => {
-    if (status === "approved") {
-      approveApplication({id: applicationId, newStatus: {status}});
-      notify({type: "approved application", application_id: applicationId});
-    } else {
-      rejectApplication({id: applicationId, newStatus: {status}});
-      notify({type: "rejected application", application_id: applicationId});
-    }
-  
-    if (approve_result?.message || reject_result?.message) {
-      showAlert(approve_result?.message || reject_result?.message)
-    }
-    if(approve_result?.error || reject_result?.error){
-      showAlert(approve_result?.error || reject_result?.error)
-    }
-  };
-
-  const navigate = useNavigate();
+  const additionalFields = JSON.parse(application.additional_fields) ?? [];
 
   return (
-    <Container>
-      <section
-        className="breadcrum"
-        style={{ padding: "2rem 4rem", paddingBottom: "0rem" }}
+    <Dialog
+      open={open} onClose={onClose}
+    >
+      <DialogTitle>Applicant Details</DialogTitle>
+      <DialogContent
+      component={"section"}
+      sx={{
+        width: 400,
+        maxHeight: '80vh', // Set a maximum height for the modal
+        bgcolor: "background.paper",
+        boxShadow: 24,
+        p: 4,
+        overflow: 'auto', // Enable scrolling
+        border: '1px solid #ffd661',
+      }}
       >
-        <a
-          className="button breadcrum"
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          {" "}
-          {"<"} Go Back{"  "}
-        </a>
-      </section>
-      <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
-        <Typography variant="h4" gutterBottom>
-          Applicant Details
-        </Typography>
-        <Grid container spacing={2}>
-          {additionalFields?.map((field, index) => (
-            <Grid item xs={12} key={index}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6">{field.label}</Typography>
-                  <Typography variant="body1">{field.value}</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-        <Grid container spacing={2} mt={2}>
-          {attachmentData?.map((attachmentUrl, index) => (
-            <Grid item xs={12} key={index}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() =>
-                  handleDownload(
-                    import.meta.env.VITE_API_URL + "/" + attachmentUrl
-                  )
-                }
-              >
-                View {extractFileName(attachmentUrl)}
-              </Button>
-            </Grid>
-          ))}
-        </Grid>
-        <Box mt={4} display="flex" justifyContent="center" width="100%">
+        {additionalFields?.map((field, index) => (
+          <div key={index} style={{ marginBottom: "15px" }}>
+            <Typography variant="h6" gutterBottom>
+              {field.label}
+            </Typography>
+            <Typography variant="body1">
+              {field.value}
+            </Typography>
+          </div>
+        ))}
+        {application?.attachments?.map((attachmentUrl, index) => (
           <Button
+            key={index}
             variant="contained"
-            color="error"
-            onClick={() => handleStatusChange("rejected")}
-            style={{ marginRight: "2rem" }}
+            color="primary"
+            onClick={() => handleDownload(import.meta.env.VITE_API_URL + "/" + attachmentUrl)}
+            style={{ marginTop: "10px", marginBottom: "10px" }}
           >
-            Reject Application
+            View {extractFileName(attachmentUrl)}
           </Button>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={() => handleStatusChange("approved")}
-          >
-            Approve Application
-          </Button>
-        </Box>
-      </Box>
-    </Container>
+        ))}
+      </DialogContent>
+      <DialogActions>
+        <Button variant="contained" color="error" onClick={() => onReject(application.id)}>
+          Reject
+        </Button>
+        <Button variant="contained" color="success" onClick={() => onApprove(application.id)}>
+          Approve
+        </Button>
+        <Button onClick={onClose}>Close</Button>
+      </DialogActions>
+    </Dialog>
   );
 };

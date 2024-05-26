@@ -7,11 +7,20 @@ router.get("/funding-opportunities", (req, res, next) => {
   //const id = "user1";
   req.db.query(
     `
-    SELECT fo.id, fo.title, COUNT(fa.id) AS numApplicants
-    FROM funding_opportunities AS fo
-    LEFT JOIN funding_applications AS fa ON fo.id = fa.fund_id AND fa.status = 'pending'
-    OR fa.status = 'approved' WHERE fo.manager_id = ?
-    GROUP BY fo.id, fo.title;
+    SELECT 
+    fo.id, 
+    fo.title, 
+    COUNT(CASE WHEN fa.status = 'pending' THEN fa.id END) AS numPending,
+    COUNT(fa.id) AS numTotalApplications
+    FROM 
+        funding_opportunities AS fo
+    LEFT JOIN 
+        funding_applications AS fa ON fo.id = fa.fund_id
+    WHERE 
+        fo.manager_id = ?
+    GROUP BY 
+        fo.id, fo.title;
+   
     `,
     [id],
     (err, result) => {
