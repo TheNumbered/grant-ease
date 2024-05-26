@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { updateMutation } from "../../../../dataprovider";
+import { createMutation, updateMutation } from "../../../../dataprovider";
 
 export const ApplicantDetails = () => {
   const location = useLocation();
@@ -46,11 +46,15 @@ export const ApplicantDetails = () => {
     invalidateKeys : ["manager/applications", "manager/funding-opportunities"]
   })
 
+  const { mutate: notify } = createMutation({resource: "notify"});
+
   const handleStatusChange = (status) => {
     if (status === "approved") {
-      approveApplication({id: applicationId, newStatus: {status}})
+      approveApplication({id: applicationId, newStatus: {status}});
+      notify({type: "approved application", application_id: applicationId});
     } else {
-      rejectApplication({id: applicationId, newStatus: {status}})
+      rejectApplication({id: applicationId, newStatus: {status}});
+      notify({type: "rejected application", application_id: applicationId});
     }
   
     if (approve_result?.message || reject_result?.message) {

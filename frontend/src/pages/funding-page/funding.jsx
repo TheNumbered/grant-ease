@@ -65,7 +65,7 @@ const FundingPage = () => {
       >
         {filteredData.map((fund) => (
           <Grid item key={fund.id} xs={12} sm={6} md={4}>
-            <article className="card">
+            <article className="card h-100">
               {fund.image && (
                 <img
                   src={import.meta.env.VITE_API_URL + "/" + fund.image}

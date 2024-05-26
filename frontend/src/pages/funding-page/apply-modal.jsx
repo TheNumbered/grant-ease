@@ -58,8 +58,8 @@ const ApplyModal = ({ open, fund, onClose }) => {
     );
     formData.append("fund_id", fund.id);
     formData.append("additional_fields", JSON.stringify(additionalFieldsData));
-    applyForFunding(formData);
     notify({"type": "new applicant", "fund_id": fund.id});
+    applyForFunding(formData);
     onClose();
   };
 

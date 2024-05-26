@@ -11,7 +11,18 @@ export const NotificationsViewer = ({onClose}) => {
   const { data, isLoading, isError } = getQuery("notifications");
 
   if (isLoading) {
-    return <LoadingPage />;
+    return (
+      <article className='z-axis-sticky-tab'>
+        <section style={{display: 'flex', alignItems: 'center', paddingBottom: '1rem'}}>
+          <button className='sticky-tab-close-btn' onClick={onClose}>x</button>
+          <Typography variant="h2" gutterBottom style={{fontSize: '1.5rem', marginLeft: '2rem'}}>
+            Notifications
+          </Typography>
+        </section>
+        <LoadingPage />
+      </article>
+      
+  );
   }
   if (isError) {
     return <div>Error</div>;
@@ -21,7 +32,7 @@ export const NotificationsViewer = ({onClose}) => {
   // console.log(data);
 
   return (
-    <div className="z-axis-sticky-tab">
+    <article className="z-axis-sticky-tab">
       <section style={{display: 'flex', alignItems: 'center', paddingBottom: '1rem'}}>
         <button className='sticky-tab-close-btn' onClick={onClose}>x</button>
         <Typography variant="h2" gutterBottom style={{fontSize: '1.5rem', marginLeft: '2rem'}}>
@@ -44,7 +55,7 @@ export const NotificationsViewer = ({onClose}) => {
         </React.Fragment>
         ))}
       </List>
-    </div>
+    </article>
   );
 };
 

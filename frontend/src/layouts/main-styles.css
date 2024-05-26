@@ -83,6 +83,13 @@ main .banner-area h2 {
     border: 1px solid #ffd661;
 }
 
+.card .card-main {
+    height: 10rem;
+    overflow: auto;
+}
+.card.h-100 {
+    height: 100%;
+}
 .card-footer {
     margin-top: 1rem;
 }
@@ -106,11 +113,13 @@ main .banner-area h2 {
 @media only screen and (max-width: 400px) {
     .HeroSection {
         padding: 1rem;
+        margin: 1rem !important;
     }
     .HeroSection form button {
         padding: 1rem;
     }
     .HeroSection h1 {
+        font-size: 1.3rem !important;
         padding-top: 2rem !important;
     }
     .HeroSection p {
@@ -125,6 +134,7 @@ main .banner-area h2 {
         width: 100%;
         padding: 0;
         background: #fff;
+        height: 100vh;
     }
     .z-axis-sticky-tab h2 {
         margin-top: 2rem;
@@ -143,7 +153,7 @@ main .banner-area h2 {
     }
 }
 
-@media only screen and (min-width: 400px) and (max-width: 901px) {
+@media only screen and (max-width: 901px) {
     main {
         padding: 0.25rem;
     }
