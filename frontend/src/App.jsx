@@ -1,6 +1,6 @@
 /* v8 ignore start */
 import { UserProfile, useAuth } from "@clerk/clerk-react";
-import { CircularProgress, Typography } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import {
   BrowserRouter,
   Navigate,
@@ -10,7 +10,6 @@ import {
 } from "react-router-dom";
 import { CenteredLayout, MainLayout } from "./layouts";
 
-import { getQuery } from "./dataprovider";
 import { DashboardPage } from "./pages/dashboard";
 import CreateFundingOpportunity from "./pages/dashboard/fund-manager/create-funding";
 import { UserApplications } from "./pages/dashboard/user/user-applications";
@@ -21,17 +20,8 @@ import { SignUpPage } from "./pages/sign-up/sign-up";
 
 function App() {
   const { isLoaded, isSignedIn } = useAuth();
-  const { data: userMeta, isLoading } = getQuery('user/meta');
-
-  if(userMeta?.is_banned){
-    return (
-      <CenteredLayout extras={{ "data-testid": "banned-page" }}>
-        <Typography variant="h1" gutterBottom>You are banned</Typography>
-      </CenteredLayout>
-    );
-  }
   
-  if (!isLoaded || isLoading) {
+  if (!isLoaded) {
     return (
       <CenteredLayout extras={{ "data-testid": "loading-page" }}>
         <CircularProgress />
