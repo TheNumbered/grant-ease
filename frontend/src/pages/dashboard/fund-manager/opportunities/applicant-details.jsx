@@ -26,18 +26,15 @@ export const ApplicationDetailsModal = ({ open, onClose, application, onApprove,
   const additionalFields = JSON.parse(application.additional_fields) ?? [];
 
   return (
-    <Dialog
-      open={open} onClose={onClose}
-    >
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>Applicant Details</DialogTitle>
       <DialogContent
       component={"section"}
       sx={{
-        width: 400,
         maxHeight: '80vh', // Set a maximum height for the modal
         bgcolor: "background.paper",
         boxShadow: 24,
-        p: 4,
+        p: 2,
         overflow: 'auto', // Enable scrolling
         border: '1px solid #ffd661',
       }}

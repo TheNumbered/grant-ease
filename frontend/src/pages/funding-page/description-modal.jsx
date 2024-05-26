@@ -10,7 +10,8 @@ const DescriptionModal = ({ open, description, onClose }) => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
+          width: "60%",
+          minWidth: '300px', 
           maxHeight: '80vh', // Set a maximum height for the modal
           bgcolor: "background.paper",
           boxShadow: 24,

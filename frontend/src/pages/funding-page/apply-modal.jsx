@@ -1,4 +1,3 @@
-/* v8 ignore start */
 import {
   Box,
   Button,
@@ -11,14 +10,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { createMutation } from "dataprovider";
 
 const ApplyModal = ({ open, fund, onClose }) => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState({});
   const [additionalFieldsData, setAdditionalFieldsData] = useState([]);
-  const { mutate: notify } = createMutation({resource: "notify"});
+  const [isFormValid, setIsFormValid] = useState(false);
+  const { mutate: notify } = createMutation({ resource: "notify" });
+
   const handleFileChange = (event) => {
     const { name, files } = event.target;
     const file = files[0];
@@ -43,6 +44,23 @@ const ApplyModal = ({ open, fund, onClose }) => {
     });
   };
 
+  useEffect(() => {
+    const requiredFiles = fund.required_files
+      ? JSON.parse(fund.required_files)
+      : [];
+    const additionalFields = fund.additional_fields
+      ? JSON.parse(fund.additional_fields)
+      : [];
+
+    const allFieldsFilled = additionalFields.every((field) =>
+      additionalFieldsData.some((data) => data.label === field.name && data.value)
+    );
+
+    const allFilesSelected = requiredFiles.every((file) => selectedFiles[file.file_name]);
+
+    setIsFormValid(allFieldsFilled && allFilesSelected);
+  }, [additionalFieldsData, selectedFiles, fund]);
+
   const { mutate: applyForFunding, isLoading: uploading } = createMutation({
     resource: "user/applications",
     invalidateKeys: ["funding-opportunities"],
@@ -58,7 +76,7 @@ const ApplyModal = ({ open, fund, onClose }) => {
     );
     formData.append("fund_id", fund.id);
     formData.append("additional_fields", JSON.stringify(additionalFieldsData));
-    notify({"type": "new applicant", "fund_id": fund.id});
+    notify({ "type": "new applicant", "fund_id": fund.id });
     applyForFunding(formData);
     onClose();
   };
@@ -126,7 +144,7 @@ const ApplyModal = ({ open, fund, onClose }) => {
 
       <DialogActions>
         {uploading && <CircularProgress />}
-        <Button onClick={handleConfirm} disabled={uploading}>
+        <Button onClick={handleConfirm} disabled={uploading || !isFormValid}>
           Confirm
         </Button>
         <Button onClick={onClose} disabled={uploading}>
@@ -138,5 +156,3 @@ const ApplyModal = ({ open, fund, onClose }) => {
 };
 
 export default ApplyModal;
-
-/* v8 ignore stop */

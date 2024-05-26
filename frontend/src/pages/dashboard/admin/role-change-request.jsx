@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material";
 import { StatusChangeTable } from "components/status-change-table";
 import { getQuery, createMutation as updateManyMutation } from "dataprovider";
 
@@ -20,8 +21,7 @@ function transformData(data) {
 
 export default function RoleChangeRequest() {
   const { data: result, isLoading, isError } = getQuery("admin/pending-managers");
-
-  const { mutate: updateIds} = updateManyMutation({resource:"admin/update-roles",invalidateKeys:["admin/pending-managers"]})
+  const { mutate: updateIds, isLoading: updateLoading } = updateManyMutation({resource:"admin/update-roles",invalidateKeys:["admin/pending-managers"]})
   
   const { mutate: notify } = updateManyMutation({resource: "notify"});
   const handleStatusChange = (selected, status) => {
@@ -44,6 +44,22 @@ export default function RoleChangeRequest() {
         headers={["Full Name", "Role"]}
         handleStatusChange={handleStatusChange}
       />
+      {updateLoading && 
+      <div style={{
+        display: 'flex', 
+        justifyContent: 'center', 
+        zIndex: 6,
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        width: '100%',
+        height: '100%',
+       }}>
+        <CircularProgress />
+      </div>
+      }
     </>
   );
 }

@@ -106,6 +106,7 @@ export const AdvertsPage = () => {
             transform: "translate(-50%, -50%)",
             padding: "20px",
             zIndex: "100",
+            borderRadius: "5px",
             backgroundColor: "rgb(214, 189, 156)",
           }}
         >

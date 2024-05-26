@@ -7,7 +7,7 @@ export default function ManageUsers() {
   const userData = data ?? [];
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5); // Change this as needed
-  const {mutate: toggleBan} = updateMutation({
+  const {mutate: toggleBan, isLoading: updateLoading} = updateMutation({
     resource: "admin/toggle-ban",
     invalidateKeys:["admin/users"]
   });
@@ -48,6 +48,7 @@ export default function ManageUsers() {
                 <TableCell>
                   <Button
                     variant="contained"
+                    disabled={updateLoading}
                     color={user.is_banned ? "primary" : "error"}
                     onClick={() => toggleBan({id: user.id, newValues: {is_banned: user.is_banned==0 ? 1 : 0}})}
                   >
