@@ -12,21 +12,24 @@ Grant-Ease is an Android application designed to streamline the process of apply
 ## Screenshots
 
 1. **Sign-In**
+   
    <img src="images/sign-in.png" alt="Sign-In" width="600"/>
 
 2. **Home Screen** and **Application Tracking**
-   <img src="images/applications.png" alt="Application Tracking" width="300"/> 
-    <img src="images/home.png" alt="Home Screen" width="300"/> 
-
+   
+   <img src="images/applications.png" alt="Application Tracking" width="600"/> 
+   <img src="images/home.png" alt="Home Screen" width="600"/> 
 
 3. **Fund Manager Dashboard** and **Manage Applications**
-    <img src="images/funds-overview.png" alt="Fund Manager Dashboard" width="300"/>
-    <img src="images/manage-applications.png" alt="Manage Applications" width="300">
+   
+    <img src="images/funds-overview.png" alt="Fund Manager Dashboard" width="600"/>
+    <img src="images/manage-applications.png" alt="Manage Applications" width="600">
     
 
 4. **Manage Users** and **Role Change**
-   <img src="images/manage-users.png" alt="Manage Users" width="300"/>
-   <img src="images/role-change.png" alt="Role Change" width="300"/>
+   
+   <img src="images/manage-users.png" alt="Manage Users" width="600"/>
+   <img src="images/role-change.png" alt="Role Change" width="600"/>
 
 [![codecov](https://codecov.io/gh/TheNumbered/grant-ease/graph/badge.svg?token=DI4459MDBF)](https://codecov.io/gh/TheNumbered/grant-ease)
 <br/>
