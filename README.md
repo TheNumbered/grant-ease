@@ -1,6 +1,6 @@
 # Grant-Ease
 
-Grant-Ease is an Android application designed to streamline the process of applying for funding and tracking funding applications. The app provides functionality for users to apply for funding opportunities, manage their applications, and stay updated on their application status. Fund managers can create and manage funding opportunities, and admins have the tools to manage users and their roles within the application.
+Grant-Ease is an Web application designed to streamline the process of applying for funding and tracking funding applications. The app provides functionality for users to apply for funding opportunities, manage their applications, and stay updated on their application status. Fund managers can create and manage funding opportunities, and admins have the tools to manage users and their roles within the application.
 
 ## Features
 
@@ -8,6 +8,11 @@ Grant-Ease is an Android application designed to streamline the process of apply
 - **Track Applications:** Users can track the status of their funding applications in real-time.
 - **Fund Manager Dashboard:** Fund managers can create funding opportunities and use a dashboard to manage applicants and funding allocations.
 - **Admin Controls:** Admins can create, ban users, and change user roles to ensure proper management and security within the app.
+
+[![codecov](https://codecov.io/gh/TheNumbered/grant-ease/graph/badge.svg?token=DI4459MDBF)](https://codecov.io/gh/TheNumbered/grant-ease)
+<br/>
+## Code Coverage Graph
+<img src="https://codecov.io/gh/TheNumbered/grant-ease/graphs/icicle.svg?token=DI4459MDBF"/>
 
 ## Screenshots
 
@@ -30,11 +35,6 @@ Grant-Ease is an Android application designed to streamline the process of apply
    
    <img src="images/manage-users.png" alt="Manage Users" width="600"/>
    <img src="images/role-change.png" alt="Role Change" width="600"/>
-
-[![codecov](https://codecov.io/gh/TheNumbered/grant-ease/graph/badge.svg?token=DI4459MDBF)](https://codecov.io/gh/TheNumbered/grant-ease)
-<br/>
-## Code Coverage Graph
-<img src="https://codecov.io/gh/TheNumbered/grant-ease/graphs/icicle.svg?token=DI4459MDBF"/>
 
 ## Getting Started
 
