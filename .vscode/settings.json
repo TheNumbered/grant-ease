@@ -4,7 +4,7 @@
         "**/node_modules": true,
         "**/coverage": true,
 
-        //"**/README.md": true,
+        "**/README.md": true,
         "**/.git*": true,
         
         "**/dist": true,
@@ -12,6 +12,8 @@
         "**/vite*": true,
         "**/*config*": true,
         "**/.es*": true,
+        "**/db-utility*": true,
+        "**/images*": true,
      },
     "editor.codeActionsOnSave": {
         "source.organizeImports": "always"

@@ -5,7 +5,8 @@ import app from './app';
 vi.mock("mysql2", ()=>({
     default: {
         createConnection: () => ({
-            connect: (cb) => cb()
+            connect: (cb) => cb(),
+            ping : (cb) => cb(),
         })
 }}));
 

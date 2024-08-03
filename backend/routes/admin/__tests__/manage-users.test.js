@@ -7,7 +7,7 @@ vi.mock("@clerk/clerk-sdk-node", () => ({
   ClerkExpressRequireAuth: () => (req, res, next) => {
     req.auth = { id: "123" };
     next();
-  }
+  } 
 }));
 
 const mockQuery = vi.fn();
@@ -17,6 +17,7 @@ vi.mock("mysql2", () => ({
     createConnection: () => ({
       connect: (cb) => cb(),
       query: (sql, params, callback) => mockQuery(params instanceof Function ? params : callback),
+      ping : (cb) => cb(),
     }),
   },
 }));

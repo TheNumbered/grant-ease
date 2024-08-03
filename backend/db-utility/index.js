@@ -18,8 +18,8 @@ const dumpOrRestore = (action, env, fileName) => {
 
     const dumpFileName = fileName || 'backup.sql';
 
-    const dumpSQLCommand = `mysqldump -h ${process.env.MYSQL_HOST} -u ${process.env.MYSQL_USER} -p ${process.env.MYSQL_DATABASE} > ${dumpFileName}`;
-    const restoreSQLCommand = `mysql -h ${process.env.MYSQL_HOST} -u ${process.env.MYSQL_USER} -p ${process.env.MYSQL_DATABASE} < ${dumpFileName}`;
+    const dumpSQLCommand = `mysqldump -h ${process.env.MYSQL_HOST} -P ${process.env.MYSQL_PORT} -u ${process.env.MYSQL_USER} -p ${process.env.MYSQL_DATABASE} > ${dumpFileName}`;
+    const restoreSQLCommand = `mysql -h ${process.env.MYSQL_HOST} -P ${process.env.MYSQL_PORT} -u ${process.env.MYSQL_USER} -p ${process.env.MYSQL_DATABASE} < ${dumpFileName}`;
 
     if (action === 'dump') {
         exec(dumpSQLCommand, (err, stdout, stderr) => {

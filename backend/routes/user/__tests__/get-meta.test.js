@@ -18,6 +18,7 @@ vi.mock("mysql2", () => ({
     createConnection: () => ({
       connect: (cb) => cb(),
       query: (sql, params, callback) => mockQuery(params instanceof Function ? params : callback),
+      ping : (cb) => cb(),
     }),
   },
 }));

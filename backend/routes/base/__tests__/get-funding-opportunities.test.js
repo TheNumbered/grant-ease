@@ -32,6 +32,7 @@ vi.mock("mysql2", () => ({
           callback(new Error("Invalid SQL query"));
         }
       },
+      ping: (cb) => cb(),
     }),
   },
 }));
