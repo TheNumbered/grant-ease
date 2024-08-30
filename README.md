@@ -122,7 +122,7 @@ Make sure to set these environment variables before running the app.
 This project was developed as part of the Software Design course at Wits University by the following team:
 
 Daniel Ngobe,
-Karabo Joshua,
+Karabo Joshua Mofamere,
 Kharendwe Negota,
 Theophilus Kgopa,
 Sisekelo Ngcobo,
